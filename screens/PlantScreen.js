@@ -25,7 +25,7 @@ const PlantScreen = () => {
     const addPlant = (newPlant) => {
       const added = {
         id: Date.now().toString(),
-        name: newPlant.common_name || newPlant.scientific_name,
+        name: newPlant.common_name || newPlant.other_name,
         image: newPlant.image_url,
       };
       setPlants([...plants, added]);

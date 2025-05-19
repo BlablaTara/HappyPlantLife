@@ -7,6 +7,7 @@ export default {
     version: "1.0.0",
     extra: {
       TREFLE_TOKEN: process.env.TREFLE_TOKEN,
+      PERENUAL_TOKEN: process.env.PERENUAL_TOKEN,
     },
   },
 };

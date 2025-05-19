@@ -21,8 +21,8 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
     if (!query) return;
     setLoading(true);
     try {
-      const token = Constants.expoConfig.extra.TREFLE_TOKEN;
-      const response = await fetch(`https://trefle.io/api/v1/plants?token=${token}&page_size=30`);
+      const token = Constants.expoConfig.extra.PERENUAL_TOKEN;
+      const response = await fetch(`https://perenual.com/api/v2/species-list?key=${token}&indoor=1&page=1`);
       
       const contentType = response.headers.get("content-type");
       if (!contentType.includes("application/json")) {
@@ -70,12 +70,12 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
-                {item.image_url ? (
-                  <Image source={{ uri: item.image_url }} style={styles.image} />
+                {item.default_image && item.default_image.small_url ? (
+                  <Image source={{ uri: item.default_image.small_url }} style={styles.image} />
                 ) : (
                   <View style={styles.placeholder}><Text>🌿</Text></View>
                 )}
-                <Text style={styles.name}>{item.common_name ? item.common_name : item.scientific_name}</Text>
+                <Text style={styles.name}>{item.common_name ? item.common_name : item.other_name}</Text>
               </TouchableOpacity>
             )}
           />
