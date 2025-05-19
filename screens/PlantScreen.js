@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, FlatList, Button, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import Plant from '../components/Plants.js';
+import AddPlant from '../components/AddPlant.js';
+
 
 const PlantScreen = () => {
     const [plants, setPlants] = useState([
@@ -34,7 +36,7 @@ const PlantScreen = () => {
             <Plant name={item.name} image={item.image} />
           )}
         />
-        <Button title="Tilføj plante" onPress={addPlant} />
+        <AddPlant onPress={addPlant} />
       </View>
     );
   };
