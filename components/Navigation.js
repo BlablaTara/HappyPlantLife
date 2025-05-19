@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -31,7 +32,13 @@ export default function Navigation() {
             >
                 <Tab.Screen name="Home" component={HomeScreen} />
                 <Tab.Screen name="Dashboard" component={DashboardScreen} />
-                <Tab.Screen name="Plants" component={PlantScreen} />
+                <Tab.Screen name="Plants" component={PlantScreen} options={{ tabBarIcon: ({ color, size }) => (
+                    <Image 
+                    source={{ uri: 'https://img.icons8.com/?size=100&id=E7W8jFv4qjui&format=png&color=000000' }}
+                    style={{ width: size, height: size, tintColor: color }}
+                    />
+                ),}} 
+                />
             </Tab.Navigator>    
         </NavigationContainer>
     );
