@@ -1,23 +1,31 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import AuthCard from '../components/auth/AuthCard';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
-    return (
-        <View style={styles.screen}>
-            <Text style={styles.text}>Velkommen til Home!</Text>
-        </View>
-    );
+  const [user, setUser] = useState(null);
+  const navigation = useNavigation();
+
+  const handleLogin = (session) => {
+    if (session) {
+      navigation.navigate('Dashboard'); // Gå videre til appen
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <AuthCard onLogin={handleLogin} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 20,
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default HomeScreen;

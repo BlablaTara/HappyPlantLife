@@ -21,7 +21,7 @@ export default function Navigation() {
                             return <Ionicons name="home-outline" size={size} color={color} />
                         } else if (route.name === 'Dashboard') {
                             return <Ionicons name="speedometer-outline" size={size} color={color} />
-                        } else if (route.namee === 'Plants') {
+                        } else if (route.name === 'Plants') {
                             return <MaterialCommunityIcons name="leaf" size={size} color={color} />
                         }
                     },
