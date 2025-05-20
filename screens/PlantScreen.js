@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Text, ActivityIndicator, Image } from 'react-native';
 import supabase from '../utils/supabaseConnection.js';
-import AddPlantButton from '../components/plants/AddPlantButton'; // husk import
+import AddPlantButton from '../components/plants/AddPlantButton';
+import SearchPlant from '../components/plants/SearchPlant.js';
 
 const PlantScreen = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchUserPlants();
@@ -38,6 +40,48 @@ const PlantScreen = () => {
     setLoading(false);
   };
 
+  const addPlantToUser = async (plantId) => {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('Bruger ikke logget ind');
+      return;
+    }
+
+    console.log('Tilføjer plante:', plantId);
+
+    // Tjek for eksisterende plante
+    const { data: existing, error: checkError } = await supabase
+      .from('user_plants')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('plant_id', plantId);
+
+    if (checkError) {
+      console.error('Fejl ved duplikat-tjek:', checkError.message);
+      return;
+    }
+
+    if (existing.length > 0) {
+      console.log('🌱 Planten er allerede tilføjet');
+      return;
+    }
+
+    const { error } = await supabase
+      .from('user_plants')
+      .insert([{ plant_id: plantId, user_id: user.id }]);
+
+    if (error) {
+      console.error('Fejl ved tilføjelse af plante:', error.message);
+    } else {
+      console.log('✅ Plante tilføjet til brugerens samling!');
+      fetchUserPlants(); // opdater listen
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -52,12 +96,14 @@ const PlantScreen = () => {
 
       {userPlants.length === 0 ? (
         <View style={styles.centered}>
-          <Text style={styles.emptyText}>Du har endnu ikke valgt nogen planter. Tryk på + for at tilføje en af dine planter.</Text>
+          <Text style={styles.emptyText}>
+            Du har endnu ikke valgt nogen planter. Tryk på + for at tilføje en af dine planter.
+          </Text>
         </View>
       ) : (
         <FlatList
           data={userPlants}
-          keyExtractor={(item) => item.plant_id}
+          keyExtractor={(item) => item.plant_id.toString()}
           renderItem={({ item }) => (
             <View style={styles.plantItem}>
               {item.plants?.image ? (
@@ -71,7 +117,15 @@ const PlantScreen = () => {
         />
       )}
 
-      <AddPlantButton onPress={() => console.log('Tilføj plante')} />
+      <AddPlantButton onPress={() => setModalVisible(true)} />
+      <SearchPlant
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSelectPlant={async (plant) => {
+          await addPlantToUser(plant.id);
+          setModalVisible(false);
+        }}
+      />
     </View>
   );
 };

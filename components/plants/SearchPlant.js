@@ -46,29 +46,6 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
 //     plant.name.toLowerCase().includes(query.toLowerCase())
 //   );
 
-  const addPlantToUser = async (plantId) => {
-    const {
-      data: { user },
-      error: userError
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-      console.error('Bruger ikke logget ind');
-      return;
-    }
-    const { error } = await supabase.from('user_plants').insert([
-      {
-        plant_id: plantId,
-        user_id: user.id, 
-      }
-    ]);
-
-    if (error) {
-      console.error('Fejl ved tilføjelse af plante:', error.message);
-    } else {
-      console.log('Plante tilføjet til brugerens samling!');
-    }
-  };
 
 
   const handleSelect = (plant) => {
