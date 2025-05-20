@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   View,
@@ -8,43 +8,43 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
-import Constants from 'expo-constants';
+import supabase from '../../utils/supabaseConnection';
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
-  const [query, setQuery] = useState('');
+  //const [query, setQuery] = useState('');
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Hent alle planter fra Supabase ved åbning
+  useEffect(() => {
+    if (visible) {
+      fetchPlants();
+    }
+  }, [visible]);
+
   const fetchPlants = async () => {
-    if (!query) return;
     setLoading(true);
     try {
-      const token = Constants.expoConfig.extra.PERENUAL_TOKEN;
-      const response = await fetch(`https://perenual.com/api/v2/species-list?key=${token}&indoor=1&page=1`);
-      
-      const contentType = response.headers.get("content-type");
-      if (!contentType.includes("application/json")) {
-        const text = await response.text();
-        console.warn("Fik ikke JSON - måske forkert URL eller TOKEN?", text);
-        return;
-      }
+      const { data, error } = await supabase
+        .from('plants')
+        .select('*');
 
-      const json = await response.json();
+      if (error) throw error;
 
-      const filtered = json.data.filter((plant) => 
-        plant.common_name &&
-        plant.common_name.toLowerCase().includes(query.toLowerCase())
-        );
-
-      setPlants(filtered);
+      console.log("Fetched plants from Supabase:", data);
+      setPlants(data);
     } catch (error) {
-      console.log("Fejl ved hentning:", error);
+      console.error('Fejl ved hentning af planter fra Supabase:', error);
     } finally {
       setLoading(false);
     }
   };
+
+//   const filteredPlants = plants.filter((plant) =>
+//     plant.name.toLowerCase().includes(query.toLowerCase())
+//   );
 
   const handleSelect = (plant) => {
     onSelectPlant(plant);
@@ -54,14 +54,15 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
-        <TextInput
+        <Text style={styles.title}>Alle planter fra databasen</Text>
+        
+        {/* <TextInput
           style={styles.input}
-          placeholder="Søg efter plante..."
+          placeholder="Søg planter..."
           value={query}
           onChangeText={setQuery}
-          onSubmitEditing={fetchPlants}
-          returnKeyType="search"
-        />
+        /> */}
+
         {loading ? (
           <ActivityIndicator size="large" color="green" />
         ) : (
@@ -70,16 +71,17 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
-                {item.default_image && item.default_image.small_url ? (
-                  <Image source={{ uri: item.default_image.small_url }} style={styles.image} />
+                {item.image ? (
+                  <Image source={{ uri: item.image }} style={styles.image} />
                 ) : (
                   <View style={styles.placeholder}><Text>🌿</Text></View>
                 )}
-                <Text style={styles.name}>{item.common_name ? item.common_name : item.other_name}</Text>
+                <Text style={styles.name}>{item.name}</Text>
               </TouchableOpacity>
             )}
           />
         )}
+
         <TouchableOpacity onPress={onClose} style={styles.close}>
           <Text style={styles.closeText}>Luk</Text>
         </TouchableOpacity>
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   closeText: {
     fontSize: 16,
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default SearchPlant;

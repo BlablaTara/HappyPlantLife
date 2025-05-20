@@ -6,8 +6,8 @@ export default {
     slug: "HappyPlantLife",
     version: "1.0.0",
     extra: {
-      TREFLE_TOKEN: process.env.TREFLE_TOKEN,
-      PERENUAL_TOKEN: process.env.PERENUAL_TOKEN,
+      SUPABASE_URL: process.env.SUPABASE_URL,
+      SUPABASE_KEY: process.env.SUPABASE_KEY,
     },
   },
 };
