@@ -1,15 +1,25 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { differenceInDays, addDays, parseISO } from 'date-fns';
+import { differenceInCalendarDays, differenceInDays, addDays, parseISO } from 'date-fns';
 import supabase from "../../utils/supabaseConnection.js";
 import { FontAwesome } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
+import { Vibration } from "react-native";
 
 
 const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
+    
+    const playDropSound = async () => {
+        const { sound } = await Audio.Sound.createAsync(
+            require('../../assets/sounds/water-bubble.wav')
+        );
+        await sound.playAsync();
+    };
+
     const daysUntilNextWatering = () => {
         if (!lastWatered || !waterNeeds) return 'Ukendt';
         const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
-        const days = differenceInDays(nextWateringDate, new Date());
+        const days = differenceInCalendarDays(nextWateringDate, new Date());
         return `${days} dage`;
     };
 
@@ -31,9 +41,13 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
             <Text style={styles.label}>
                 Næste vanding: om {daysUntilNextWatering()}
             </Text>
-            <TouchableOpacity onPress={handleWater} style={styles.button}>
+            <TouchableOpacity onPress={() => {
+                handleWater();
+                playDropSound();
+                Vibration.vibrate(50);
+            }}>
                 <FontAwesome name="tint" size={24} color="white" />
-                <Text style={styles.buttonText}>Vand</Text>
+                <Text style={styles.buttonText}>💧</Text>
             </TouchableOpacity>
         </View>
     );
