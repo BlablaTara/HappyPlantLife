@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^7.3.13",
     "@react-navigation/native": "^7.1.9",
     "@supabase/supabase-js": "^2.49.6",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "expo": "^53.0.9",
     "expo-constants": "^17.1.6",

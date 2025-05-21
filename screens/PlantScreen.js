@@ -36,7 +36,7 @@ const PlantScreen = () => {
 
     const { data, error } = await supabase
       .from('user_plants')
-      .select('plant_id, plants(name, image)')
+      .select('plant_id, last_watered, plants(name, image, water_needs)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -120,6 +120,8 @@ const PlantScreen = () => {
                   plant_id: item.plant_id,
                   name: item.plants?.name,
                   image: item.plants?.image,
+                  last_watered: item.last_watered,
+                  water_needs: item.plants?.water_needs,
                 })
               }
             >
@@ -152,6 +154,7 @@ const PlantScreen = () => {
             fetchUserPlants();
           }
         }}
+        onWatered={() => fetchUserPlants()} 
       />
     </SafeAreaView>
   );

@@ -1,16 +1,24 @@
 // components/plants/ShowPlant.js
 import React from 'react';
 import { Modal, View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import WaterPlant from './WaterPlants.js';
 
-const ShowPlant = ({ visible, onClose, plant, onDelete }) => {
+const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   if (!plant) return null;
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
           <Image source={{ uri: plant.image }} style={styles.image} />
           <Text style={styles.name}>{plant.name}</Text>
+
+            <WaterPlant
+                plantId={plant.plant_id}
+                lastWatered={plant.last_watered}
+                waterNeeds={plant.water_needs}
+                onWatered={onWatered}
+            />
 
           <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
             <Text style={styles.deleteText}>🗑️ Slet plante</Text>
