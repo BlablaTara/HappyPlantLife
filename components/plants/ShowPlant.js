@@ -1,32 +1,46 @@
 // components/plants/ShowPlant.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import WaterPlant from './WaterPlants.js';
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
-  if (!plant) return null;
+  const [localPlant, setLocalPlant] = useState(null);
+
+  useEffect(() => {
+    setLocalPlant(plant);
+  }, [plant]);
+
+
+  if (!localPlant) return null;
+
+  const handleWatered = () => {
+    const now = new Date().toISOString();
+    setLocalPlant({ ...localPlant, last_watered: now });
+    onWatered(); //Opdaterer også globalt
+  }
 
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
-          <Image source={{ uri: plant.image }} style={styles.image} />
-          <Text style={styles.name}>{plant.name}</Text>
+          <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
+            <Text style={styles.closeIconText}>✕</Text>
+          </TouchableOpacity>
+
+          <Image source={{ uri: localPlant.image }} style={styles.image} />
+          <Text style={styles.name}>{localPlant.name}</Text>
 
             <WaterPlant
-                plantId={plant.plant_id}
-                lastWatered={plant.last_watered}
-                waterNeeds={plant.water_needs}
-                onWatered={onWatered}
+                plantId={localPlant.plant_id}
+                lastWatered={localPlant.last_watered}
+                waterNeeds={localPlant.water_needs}
+                onWatered={handleWatered}
             />
 
           <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
             <Text style={styles.deleteText}>🗑️ Slet plante</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeText}>Luk</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -68,12 +82,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
-  closeButton: {
-    marginTop: 12,
-    padding: 8,
+  closeIcon: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    zIndex: 1,
   },
-  closeText: {
-    color: '#333',
+
+  closeIconText: {
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
 

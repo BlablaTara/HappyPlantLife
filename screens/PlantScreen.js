@@ -81,7 +81,11 @@ const PlantScreen = () => {
 
     const { error } = await supabase
       .from('user_plants')
-      .insert([{ plant_id: plantId, user_id: user.id }]);
+      .insert([{ 
+        plant_id: plantId, 
+        user_id: user.id,
+        last_watered: new Date().toISOString() 
+      }]);
 
     if (error) {
       console.error('Fejl ved tilføjelse af plante:', error.message);
@@ -154,7 +158,30 @@ const PlantScreen = () => {
             fetchUserPlants();
           }
         }}
-        onWatered={() => fetchUserPlants()} 
+        onWatered={async () => {
+          await fetchUserPlants();
+
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+
+          const { data, error } = await supabase
+            .from('user_plants')
+            .select('plant_id, last_watered, plants(name, image, water_needs)')
+            .eq('user_id', user.id)
+            .eq('plant_id', selectedPlant.plant_id)
+            .single();
+
+          if (!error && data) {
+            setSelectedPlant({
+              plant_id: data.plant_id,
+              name: data.plants?.name,
+              image: data.plants?.image,
+              last_watered: data.last_watered,
+              water_needs: data.plants?.water_needs,
+            });
+          }
+        }}
       />
     </SafeAreaView>
   );

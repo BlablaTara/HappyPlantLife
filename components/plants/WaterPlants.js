@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { formatDistanceToNowStrict, addDays, parseISO } from 'date-fns';
+import { differenceInDays, addDays, parseISO } from 'date-fns';
 import supabase from "../../utils/supabaseConnection.js";
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -9,7 +9,8 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
     const daysUntilNextWatering = () => {
         if (!lastWatered || !waterNeeds) return 'Ukendt';
         const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
-        return formatDistanceToNowStrict(nextWateringDate, { local: da });
+        const days = differenceInDays(nextWateringDate, new Date());
+        return `${days} dage`;
     };
 
     const handleWater = async () => {
