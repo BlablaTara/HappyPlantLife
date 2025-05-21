@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { differenceInCalendarDays, differenceInDays, addDays, parseISO } from 'date-fns';
 import supabase from "../../utils/supabaseConnection.js";
-import { FontAwesome } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { Vibration } from "react-native";
 
@@ -20,7 +19,7 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
         if (!lastWatered || !waterNeeds) return 'Ukendt';
         const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
         const days = differenceInCalendarDays(nextWateringDate, new Date());
-        return `${days} dage`;
+        return `${days} dage til vanding`;
     };
 
     const handleWater = async () => {
@@ -39,14 +38,13 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>
-                Næste vanding: om {daysUntilNextWatering()}
+                {daysUntilNextWatering()}
             </Text>
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity style={styles.button} onPress={() => {
                 handleWater();
                 playDropSound();
-                Vibration.vibrate(50);
+                Vibration.vibrate(10);
             }}>
-                <FontAwesome name="tint" size={24} color="white" />
                 <Text style={styles.buttonText}>💧</Text>
             </TouchableOpacity>
         </View>
@@ -63,9 +61,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: 'deepskyblue',
+    backgroundColor: '#fff',
     padding: 10,
     borderRadius: 10,
+    borderColor: 'lightgray',
+    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
@@ -73,7 +73,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 30,
   },
+
 });
 
 export default WaterPlant;

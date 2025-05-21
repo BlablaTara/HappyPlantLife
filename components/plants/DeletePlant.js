@@ -1,4 +1,3 @@
-// components/plants/DeletePlant.js
 import supabase from '../../utils/supabaseConnection';
 
 export const deleteUserPlant = async (plantId) => {

@@ -1,4 +1,3 @@
-// components/plants/ShowPlant.js
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import WaterPlant from './WaterPlants.js';
@@ -6,19 +5,29 @@ import WaterPlant from './WaterPlants.js';
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
 
-  const dropletOpacity = useRef(new Animated.Value(0)).current;
+  const dropletOpacity = useRef(new Animated.Value(0)).current; // fader ind og ud
+  const dropletY = useRef(new Animated.Value(0)).current; // bevæger sig nedaf
 
   const playDropletAnimation = () => {
     dropletOpacity.setValue(0);
+    dropletY.setValue(-40);
+
     Animated.sequence([
-      Animated.timing(dropletOpacity, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }),
+      Animated.parallel([
+        Animated.timing(dropletOpacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(dropletY, {
+          toValue: 20,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+      ]),
       Animated.timing(dropletOpacity, {
         toValue: 0,
-        duration: 800,
+        duration: 300,
         useNativeDriver: true,
       }),
     ]).start();
@@ -42,14 +51,24 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
     <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
-          <Animated.Text style={[styles.droplet, { opacity: dropletOpacity}]}>
-            💧
-          </Animated.Text>
+
           <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
             <Text style={styles.closeIconText}>✕</Text>
           </TouchableOpacity>
 
-          <Image source={{ uri: localPlant.image }} style={styles.image} />
+          <View style={styles.imageWrapper}>
+            <Image source={{ uri: localPlant.image }} style={styles.image} />
+            <Animated.Text style={[styles.droplet, 
+                { 
+                  opacity: dropletOpacity, 
+                  transform: [{ translateY: dropletY }],
+                },
+              ]}
+            >
+              💧
+            </Animated.Text>
+          </View>
+
           <Text style={styles.name}>{localPlant.name}</Text>
 
             <WaterPlant
@@ -83,6 +102,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
   },
+  imageWrapper: {
+    position: 'relative',
+    width: 120,
+    height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    overflow: 'visible',
+  },
   image: {
     width: 120,
     height: 120,
@@ -115,12 +143,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   droplet: {
-    fontSize: 28,
-    marginTop: 10,
-    marginBottom: 5,
-    transform: [{ translateY: -10 }],
+    position: 'absolute',
+    top: 0, 
+    fontSize: 30,
+    zIndex: 2,
   },
-  
+
 });
 
 export default ShowPlant;
