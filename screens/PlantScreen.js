@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, Text, ActivityIndicator, Image } from 'react-native';
+import { View, FlatList, StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import supabase from '../utils/supabaseConnection.js';
 import AddPlantButton from '../components/plants/AddPlantButton';
 import SearchPlant from '../components/plants/SearchPlant.js';
+import ShowPlant from '../components/plants/ShowPlant.js';
+import { deleteUserPlant } from '../components/plants/DeletePlant.js';
 import Plant from '../components/plants/Plants.js';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 const PlantScreen = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [selectedPlant, setSelectedPlant] = useState(null);
+  const [detailVisible, setDetailVisible] = useState(false);
+
 
   useEffect(() => {
     fetchUserPlants();
@@ -107,13 +114,23 @@ const PlantScreen = () => {
           data={userPlants}
           keyExtractor={(item) => item.plant_id.toString()}
           renderItem={({ item }) => (
-            <Plant name={item.plants?.name} image={item.plants?.image} />
+            <TouchableOpacity
+              onPress={() =>
+                setSelectedPlant({
+                  plant_id: item.plant_id,
+                  name: item.plants?.name,
+                  image: item.plants?.image,
+                })
+              }
+            >
+              <Plant name={item.plants?.name} image={item.plants?.image} />
+            </TouchableOpacity>
           )}
           numColumns={2}
           contentContainerStyle={styles.listContent}
         />
       )}
-    
+
       <AddPlantButton onPress={() => setModalVisible(true)} />
       <SearchPlant
         visible={modalVisible}
@@ -123,8 +140,22 @@ const PlantScreen = () => {
           setModalVisible(false);
         }}
       />
+
+      <ShowPlant
+        visible={!!selectedPlant}
+        plant={selectedPlant}
+        onClose={() => setSelectedPlant(null)}
+        onDelete={async () => {
+          const success = await deleteUserPlant(selectedPlant.plant_id);
+          if (success) {
+            setSelectedPlant(null);
+            fetchUserPlants();
+          }
+        }}
+      />
     </SafeAreaView>
   );
+
 };
 
 const styles = StyleSheet.create({
