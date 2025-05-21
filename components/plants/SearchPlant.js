@@ -13,7 +13,7 @@ import {
 import supabase from '../../utils/supabaseConnection';
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
-  //const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('');
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,9 +42,9 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
     }
   };
 
-//   const filteredPlants = plants.filter((plant) =>
-//     plant.name.toLowerCase().includes(query.toLowerCase())
-//   );
+  const filteredPlants = plants.filter((plant) =>
+    plant.name.toLowerCase().includes(query.toLowerCase())
+  );
 
 
 
@@ -58,18 +58,18 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Alle planter fra databasen</Text>
         
-        {/* <TextInput
+        <TextInput
           style={styles.input}
           placeholder="Søg planter..."
           value={query}
           onChangeText={setQuery}
-        /> */}
+        />
 
         {loading ? (
           <ActivityIndicator size="large" color="green" />
         ) : (
           <FlatList
-            data={plants}
+            data={filteredPlants}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>

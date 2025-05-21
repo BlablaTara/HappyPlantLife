@@ -3,6 +3,8 @@ import { View, FlatList, StyleSheet, Text, ActivityIndicator, Image } from 'reac
 import supabase from '../utils/supabaseConnection.js';
 import AddPlantButton from '../components/plants/AddPlantButton';
 import SearchPlant from '../components/plants/SearchPlant.js';
+import Plant from '../components/plants/Plants.js';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PlantScreen = () => {
   const [userPlants, setUserPlants] = useState([]);
@@ -91,7 +93,7 @@ const PlantScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Mine Planter</Text>
 
       {userPlants.length === 0 ? (
@@ -105,18 +107,13 @@ const PlantScreen = () => {
           data={userPlants}
           keyExtractor={(item) => item.plant_id.toString()}
           renderItem={({ item }) => (
-            <View style={styles.plantItem}>
-              {item.plants?.image ? (
-                <Image source={{ uri: item.plants.image }} style={styles.image} />
-              ) : (
-                <Text>🌿</Text>
-              )}
-              <Text style={styles.name}>{item.plants?.name}</Text>
-            </View>
+            <Plant name={item.plants?.name} image={item.plants?.image} />
           )}
+          numColumns={2}
+          contentContainerStyle={styles.listContent}
         />
       )}
-
+    
       <AddPlantButton onPress={() => setModalVisible(true)} />
       <SearchPlant
         visible={modalVisible}
@@ -126,20 +123,29 @@ const PlantScreen = () => {
           setModalVisible(false);
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 16 },
-  plantItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
+  
+  container: { 
+    flex: 1, 
+    paddingHorizontal: 10 
   },
-  image: { width: 50, height: 50, marginRight: 12 },
-  name: { fontSize: 16 },
+
+  title: { 
+    fontSize: 22, 
+    fontWeight: 'bold', 
+    textAlign: 'center',
+    marginVertical: 20 
+  },
+
+  listContent: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   emptyText: {
     fontSize: 16,
     textAlign: 'center',
@@ -147,6 +153,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingHorizontal: 20,
   },
+
   centered: {
     flex: 1,
     justifyContent: 'center',
