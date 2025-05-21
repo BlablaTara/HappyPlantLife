@@ -6,7 +6,7 @@ import AddPlantButton from '../components/plants/AddPlantButton';
 import SearchPlant from '../components/plants/SearchPlant.js';
 import ShowPlant from '../components/plants/ShowPlant.js';
 import { deleteUserPlant } from '../components/plants/DeletePlant.js';
-import Plant from '../components/plants/Plants.js';
+import Plants from '../components/plants/Plants.js';
 
 
 const PlantScreen = () => {
@@ -15,8 +15,6 @@ const PlantScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [selectedPlant, setSelectedPlant] = useState(null);
-  const [detailVisible, setDetailVisible] = useState(false);
-
 
   useEffect(() => {
     fetchUserPlants();
@@ -119,17 +117,36 @@ const PlantScreen = () => {
           keyExtractor={(item) => item.plant_id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() =>
-                setSelectedPlant({
-                  plant_id: item.plant_id,
-                  name: item.plants?.name,
-                  image: item.plants?.image,
-                  last_watered: item.last_watered,
-                  water_needs: item.plants?.water_needs,
-                })
-              }
+              onPress={async () => {
+                const {
+                  data: { user },
+                } = await supabase.auth.getUser();
+
+                const { data, error } = await supabase
+                  .from('user_plants')
+                  .select('plant_id, last_watered, plants(name, image, water_needs)')
+                  .eq('user_id', user.id)
+                  .eq('plant_id', item.plant_id)
+                  .single();
+
+                if (!error && data) {
+                  setSelectedPlant({
+                    plant_id: data.plant_id,
+                    name: data.plants?.name,
+                    image: data.plants?.image,
+                    last_watered: data.last_watered,
+                    water_needs: data.plants?.water_needs,
+                  });
+                }
+              }}
+
             >
-              <Plant name={item.plants?.name} image={item.plants?.image} />
+              <Plants 
+                name={item.plants?.name} 
+                image={item.plants?.image} 
+                lastWatered={item.last_watered}
+                waterNeeds={item.plants?.water_needs}
+              />
             </TouchableOpacity>
           )}
           numColumns={2}

@@ -16,11 +16,38 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
     };
 
     const daysUntilNextWatering = () => {
-        if (!lastWatered || !waterNeeds) return 'Ukendt';
-        const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
-        const days = differenceInCalendarDays(nextWateringDate, new Date());
-        return `${days} dage til vanding`;
+    if (!lastWatered || !waterNeeds) return 'Ukendt';
+
+    const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
+    const days = differenceInCalendarDays(nextWateringDate, new Date());
+
+    if (days > 1) {
+        return (
+        <Text>
+            <Text style={styles.daysNumber}>{days}</Text>
+            <Text> : dage til vanding</Text>
+        </Text>
+        );
+    } else if (days === 1) {
+        return (
+        <Text>
+            <Text style={styles.daysNumber}>1</Text>
+            <Text> dag til vanding</Text>
+        </Text>
+        );
+    } else if (days === 0) {
+        return <Text style={styles.today}>Skal vandes i dag!</Text>;
+    } else if (days === -1) {
+        return <Text style={styles.overdue}>Skulle havde været vandet i går!</Text>;
+    } else if (days <= -2 && days >= -3) {
+        return <Text style={styles.warning}>Åh nej, skynd dig og vand mig!</Text>;
+    } else if (days <= -4 && days >= -10) {
+        return <Text style={styles.urgent}>VAND VAAAND!</Text>;
+    } else {
+        return <Text style={styles.veryLate}>Du har glemt mig 🥀</Text>;
+    }
     };
+
 
     const handleWater = async () => {
         const { error } = await supabase
@@ -37,9 +64,9 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>
-                {daysUntilNextWatering()}
-            </Text>
+          <View style={styles.label}>
+            {daysUntilNextWatering()}
+          </View>
             <TouchableOpacity style={styles.button} onPress={() => {
                 handleWater();
                 playDropSound();
@@ -59,6 +86,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 10,
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#fff',
@@ -74,6 +102,36 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 30,
+  },
+
+  daysNumber: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  today: {
+    color: '#007AFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  overdue: {
+    color: '#FF9500',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  warning: {
+    color: '#FF3B30',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  urgent: {
+    color: '#FF0000',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  veryLate: {
+    color: 'gray',
+    fontStyle: 'italic',
+    fontSize: 14,
   },
 
 });

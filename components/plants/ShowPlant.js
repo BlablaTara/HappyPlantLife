@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import WaterPlant from './WaterPlants.js';
+import { getWaterStatusColor } from '../../utils/waterStatus.js'
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
@@ -58,6 +59,14 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
           <View style={styles.imageWrapper}>
             <Image source={{ uri: localPlant.image }} style={styles.image} />
+            <View 
+              style={[
+                StyleSheet.absoluteFillObject, 
+                  { backgroundColor: getWaterStatusColor(localPlant.last_watered, localPlant.water_needs),
+                    borderRadius: 10,
+                  },
+              ]}
+             /> 
             <Animated.Text style={[styles.droplet, 
                 { 
                   opacity: dropletOpacity, 
@@ -78,8 +87,8 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
                 onWatered={handleWatered}
             />
 
-          <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-            <Text style={styles.deleteText}>🗑️ Slet plante</Text>
+          <TouchableOpacity style={styles.deleteIcon} onPress={onDelete}>
+            <Text style={styles.deleteSymbol}>🗑️</Text>
           </TouchableOpacity>
 
         </View>
@@ -94,6 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000aa',
     justifyContent: 'center',
     alignItems: 'center',
+    ...StyleSheet.absoluteFillObject,
   },
   modalContent: {
     backgroundColor: '#fff',
@@ -102,10 +112,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
   },
+
   imageWrapper: {
     position: 'relative',
     width: 120,
     height: 120,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
@@ -122,15 +134,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-  deleteButton: {
-    marginTop: 20,
-    backgroundColor: '#ff4444',
-    padding: 10,
-    borderRadius: 8,
+  deleteIcon: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    zIndex: 2,
   },
-  deleteText: {
-    color: '#fff',
-    fontWeight: '600',
+  deleteSymbol: {
+    fontSize: 22,
+    color: '#8B0000', 
   },
   closeIcon: {
     position: 'absolute',
