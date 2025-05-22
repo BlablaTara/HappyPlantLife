@@ -15,13 +15,15 @@ const PlantScreen = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-
   const [selectedPlant, setSelectedPlant] = useState(null);
+  const [refreshOnClose, setRefreshOnClose] = useState(false);
+
 
   const loadPlants = async () => {
     setLoading(true);
     const { data } = await fetchUserPlants();
     if (data) setUserPlants(data);
+    console.log("Henter userPlants data fra Supabase:", data);
     setLoading(false);
   };
 
@@ -98,7 +100,7 @@ const PlantScreen = () => {
           const success = await addPlantToUser(plant.id);
           if (success) {
             await loadPlants();
-          }
+          } 
           setModalVisible(false);
         }}
       />
@@ -106,21 +108,27 @@ const PlantScreen = () => {
       <ShowPlant
         visible={!!selectedPlant}
         plant={selectedPlant}
-        onClose={() => setSelectedPlant(null)}
+        onClose={ async() =>{ setSelectedPlant(null);
+          if (refreshOnClose) {
+            await loadPlants();
+            setRefreshOnClose(false);
+          }
+        }}
         onDelete={async () => {
           const success = await deleteUserPlant(selectedPlant.plant_id);
           if (success) {
             setSelectedPlant(null);
-            await loadPlants();
-
+            loadPlants();
           }
         }}
-        onWatered={() => {
+        onWatered={ async () => {
           const now = new Date().toISOString();
           setSelectedPlant(prev => ({
             ...prev,
             last_watered: now
           }));
+          setRefreshOnClose(true);
+
         }}
       />
     </SafeAreaView>

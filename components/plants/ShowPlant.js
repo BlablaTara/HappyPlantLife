@@ -34,15 +34,15 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
     ]).start();
   };
 
-  // useEffect(() => {
-  //   setLocalPlant(plant);
-  // }, [plant]);
+  useEffect(() => {
+    setLocalPlant(plant);
+  }, [plant]);
 
-  useEffect(() => { // chat mente dette var bedre. nu må vi se..
-    if (plant?.plant_id) {
-      setLocalPlant(plant);
-    }
-  }, [plant?.plant_id]);
+  // useEffect(() => { // chat mente dette var bedre. nu må vi se..
+  //   if (plant?.plant_id) {
+  //     setLocalPlant(plant);
+  //   }
+  // }, [plant?.plant_id]);
 
 
   if (!localPlant) return null;

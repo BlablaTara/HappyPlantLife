@@ -47,7 +47,9 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   );
 
   const handleSelect = (plant) => {
+    console.log("Plante valgt:", plant);
     onSelectPlant(plant);
+    onClose();
   };
 
   return (
