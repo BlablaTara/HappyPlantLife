@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated, Alert } from 'react-native';
 import WaterPlant from './WaterPlants.js';
 import { getWaterStatusColor } from '../../utils/waterStatus.js'
 
@@ -36,6 +36,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
   useEffect(() => {
     setLocalPlant(plant);
+    console.log("Plant passed to ShowPlant:", plant);
   }, [plant]);
 
   // useEffect(() => { // chat mente dette var bedre. nu må vi se..
@@ -64,11 +65,11 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
           </TouchableOpacity>
 
           <View style={styles.imageWrapper}>
-            <Image source={{ uri: localPlant.image }} style={styles.image} />
+            <Image source={{ uri: localPlant.plants?.image }} style={styles.image} />
             <View 
               style={[
                 StyleSheet.absoluteFillObject, 
-                  { backgroundColor: getWaterStatusColor(localPlant.last_watered, localPlant.water_needs),
+                  { backgroundColor: getWaterStatusColor(localPlant.last_watered, localPlant.plants?.water_needs),
                     borderRadius: 10,
                   },
               ]}
@@ -84,16 +85,28 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             </Animated.Text>
           </View>
 
-          <Text style={styles.name}>{localPlant.name}</Text>
+          <Text style={styles.name}>{localPlant.plants?.name}</Text>
 
-            <WaterPlant
-                plantId={localPlant.plant_id}
-                lastWatered={localPlant.last_watered}
-                waterNeeds={localPlant.water_needs}
-                onWatered={handleWatered}
-            />
+          <WaterPlant
+            plantId={localPlant.plant_id}
+            lastWatered={localPlant.last_watered}
+            waterNeeds={localPlant.plants?.water_needs}
+            onWatered={handleWatered}
+          />
 
-          <TouchableOpacity style={styles.deleteIcon} onPress={onDelete}>
+          <TouchableOpacity
+            style={styles.deleteIcon}
+            onPress={() => {
+              Alert.alert(
+                "Slet plante",
+                `Er du sikker på, at du vil slette ${localPlant.plants?.name}?`,
+                [
+                  { text: "Annullér", style: "cancel" },
+                  { text: "Slet", style: "destructive", onPress: onDelete }
+                ]
+              );
+            }}
+          >
             <Text style={styles.deleteSymbol}>🗑️</Text>
           </TouchableOpacity>
 

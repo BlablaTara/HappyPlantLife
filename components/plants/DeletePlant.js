@@ -21,6 +21,8 @@ export const deleteUserPlant = async (plantId) => {
     console.error('Fejl ved sletning:', error.message);
     return false;
   }
+  
+  console.log('Sletter plant_id:', plantId, 'for user:', user.id);
 
   return true;
 };

@@ -16,7 +16,7 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
     };
 
     const daysUntilNextWatering = () => {
-    if (!lastWatered || !waterNeeds) return 'Ukendt';
+    if (!lastWatered || !waterNeeds) return <Text>Ukendt</Text>;
 
     const nextWateringDate = addDays(parseISO(lastWatered), waterNeeds);
     const days = differenceInCalendarDays(nextWateringDate, new Date());
