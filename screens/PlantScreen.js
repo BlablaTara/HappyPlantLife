@@ -115,29 +115,12 @@ const PlantScreen = () => {
 
           }
         }}
-        onWatered={async () => {
-          await loadPlants();
-
-          const {
-            data: { user },
-          } = await supabase.auth.getUser();
-
-          const { data, error } = await supabase
-            .from('user_plants')
-            .select('plant_id, last_watered, plants(name, image, water_needs)')
-            .eq('user_id', user.id)
-            .eq('plant_id', selectedPlant.plant_id)
-            .single();
-
-          if (!error && data) {
-            setSelectedPlant({
-              plant_id: data.plant_id,
-              name: data.plants?.name,
-              image: data.plants?.image,
-              last_watered: data.last_watered,
-              water_needs: data.plants?.water_needs,
-            });
-          }
+        onWatered={() => {
+          const now = new Date().toISOString();
+          setSelectedPlant(prev => ({
+            ...prev,
+            last_watered: now
+          }));
         }}
       />
     </SafeAreaView>

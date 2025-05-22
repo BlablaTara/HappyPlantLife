@@ -67,9 +67,9 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
           <View style={styles.label}>
             {daysUntilNextWatering()}
           </View>
-            <TouchableOpacity style={styles.button} onPress={() => {
-                handleWater();
-                playDropSound();
+            <TouchableOpacity style={styles.button} onPress={ async() => {
+                await handleWater();
+                await playDropSound();
                 Vibration.vibrate(10);
             }}>
                 <Text style={styles.buttonText}>💧</Text>
