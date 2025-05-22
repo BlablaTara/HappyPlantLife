@@ -32,7 +32,7 @@ const AuthCard = ({ onLogin }) => {
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{isLogin ? 'Login' : 'Signup'}</Text>
+      <Text style={styles.title}>{isLogin ? '🌿 Login 🌿' : '🌱 Signup 🌱'}</Text>
 
       <TextInput
         placeholder="Email"
@@ -53,11 +53,16 @@ const AuthCard = ({ onLogin }) => {
         <Text style={styles.buttonText}>{isLogin ? 'Log ind' : 'Opret konto'}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-        <Text style={styles.switchText}>
-          {isLogin ? 'Ingen konto? Opret dig her' : 'Har du allerede en konto? Log ind'}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.switchContainer}>
+        <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
+          <Text style={styles.switchText}>
+            {isLogin ? 'Ingen konto? ' : 'Har du allerede en konto? '}
+            <Text style={styles.linkText}>
+              {isLogin ? 'Opret dig her' : 'Log ind'}
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#156130',
     padding: 12,
     borderRadius: 6,
   },
@@ -94,10 +99,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  switchContainer: {
+    marginTop: 20, 
+    alignItems: 'center',
+  },
   switchText: {
+    fontSize: 14,
     marginTop: 10,
     textAlign: 'center',
     color: '#444',
+    fontWeight: 'bold',
   },
 });
 

@@ -56,7 +56,6 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
-        <Text style={styles.title}>Alle planter fra databasen</Text>
         
         <TextInput
           style={styles.input}
@@ -127,6 +126,7 @@ const styles = StyleSheet.create({
   close: {
     alignSelf: 'center',
     marginTop: 10,
+    marginBottom: 50,
     padding: 8,
     backgroundColor: '#ccc',
     borderRadius: 5,
