@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import Navigation from './components/Navigation';
+import Navigation from './components/auth/Navigation';
 
 
 export default function App() {

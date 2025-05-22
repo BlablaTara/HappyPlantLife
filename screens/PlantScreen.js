@@ -6,6 +6,8 @@ import AddPlantButton from '../components/plants/AddPlantButton';
 import SearchPlant from '../components/plants/SearchPlant.js';
 import ShowPlant from '../components/plants/ShowPlant.js';
 import { deleteUserPlant } from '../components/plants/DeletePlant.js';
+import { fetchUserPlants } from '../components/plants/FetchUserPlants.js';
+import { addPlantToUser } from '../components/plants/AddPlant.js';
 import Plants from '../components/plants/Plants.js';
 
 
@@ -16,82 +18,16 @@ const PlantScreen = () => {
 
   const [selectedPlant, setSelectedPlant] = useState(null);
 
-  useEffect(() => {
-    fetchUserPlants();
-  }, []);
-
-  const fetchUserPlants = async () => {
-    const {
-      data: { user },
-      error: userError
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-      console.error('Bruger ikke logget ind');
-      setLoading(false);
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('user_plants')
-      .select('plant_id, last_watered, plants(name, image, water_needs)')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Fejl ved hentning af brugerens planter:', error);
-    } else {
-      setUserPlants(data);
-    }
-
+  const loadPlants = async () => {
+    setLoading(true);
+    const { data } = await fetchUserPlants();
+    if (data) setUserPlants(data);
     setLoading(false);
   };
 
-  const addPlantToUser = async (plantId) => {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser();
-
-    if (userError || !user) {
-      console.error('Bruger ikke logget ind');
-      return;
-    }
-
-    console.log('Tilføjer plante:', plantId);
-
-    // Tjek for eksisterende plante
-    const { data: existing, error: checkError } = await supabase
-      .from('user_plants')
-      .select('*')
-      .eq('user_id', user.id)
-      .eq('plant_id', plantId);
-
-    if (checkError) {
-      console.error('Fejl ved duplikat-tjek:', checkError.message);
-      return;
-    }
-
-    if (existing.length > 0) {
-      console.log('🌱 Planten er allerede tilføjet');
-      return;
-    }
-
-    const { error } = await supabase
-      .from('user_plants')
-      .insert([{ 
-        plant_id: plantId, 
-        user_id: user.id,
-        last_watered: new Date().toISOString() 
-      }]);
-
-    if (error) {
-      console.error('Fejl ved tilføjelse af plante:', error.message);
-    } else {
-      console.log('✅ Plante tilføjet til brugerens samling!');
-      fetchUserPlants(); // opdater listen
-    }
-  };
+  useEffect(() => {
+    loadPlants();
+  }, []);
 
   if (loading) {
     return (
@@ -159,7 +95,10 @@ const PlantScreen = () => {
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         onSelectPlant={async (plant) => {
-          await addPlantToUser(plant.id);
+          const success = await addPlantToUser(plant.id);
+          if (success) {
+            await loadPlants();
+          }
           setModalVisible(false);
         }}
       />
@@ -172,11 +111,12 @@ const PlantScreen = () => {
           const success = await deleteUserPlant(selectedPlant.plant_id);
           if (success) {
             setSelectedPlant(null);
-            fetchUserPlants();
+            await loadPlants();
+
           }
         }}
         onWatered={async () => {
-          await fetchUserPlants();
+          await loadPlants();
 
           const {
             data: { user },

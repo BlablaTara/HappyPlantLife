@@ -46,11 +46,8 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
     plant.name.toLowerCase().includes(query.toLowerCase())
   );
 
-
-
   const handleSelect = (plant) => {
     onSelectPlant(plant);
-    onClose();
   };
 
   return (

@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import HomeScreen from '../screens/HomeScreen.js';
-import DashboardScreen from '../screens/DashboardScreen.js'
-import PlantScreen from "../screens/PlantScreen.js";
+import HomeScreen from '../../screens/HomeScreen.js';
+import DashboardScreen from '../../screens/DashboardScreen.js'
+import PlantScreen from "../../screens/PlantScreen.js";
 
 
 const Tab = createBottomTabNavigator();
