@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, Modal, FlatList, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, Modal, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-const PlantCalendar = ({ markedDates, onDayPress, selectedDate, plantsForSelectedDate }) => {
+const PlantCalendar = ({ markedDates, onDayPress, selectedDate, setSelectedDate, plantsForSelectedDate }) => {
   return (
     <View>
       <Calendar
@@ -10,20 +10,38 @@ const PlantCalendar = ({ markedDates, onDayPress, selectedDate, plantsForSelecte
         onDayPress={onDayPress}
         theme={{
           selectedDayBackgroundColor: '#156130',
-          todayTextColor: '#00adf5',
-          arrowColor: '#156130',
+          selectedDayTextColor: '#fff',        // Hvid tekst på valgte dato
+          todayBackgroundColor: '#156130',     // Grøn baggrund på dags dato
+          todayTextColor: '#fff',              // Hvid tekst på dags dato
+          arrowColor: '#156130',                // Grøn farve på pile
+          dotColor: '#156130',                  // Grøn prik (men vi ændrer til fyld senere)
+          textDayFontWeight: 'bold',
+          textMonthFontWeight: 'bold',
+          textDayHeaderFontWeight: 'bold',
         }}
+        style={styles.calendar}
       />
+
       {selectedDate && (
-        <Modal visible={true} transparent={true}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Planter der skal vandes den {selectedDate}</Text>
+        <Modal 
+          transparent
+          animationType="slide" 
+          visible={true} 
+          onRequestClose={() => setSelectedDate(null)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Planter der skal vandes:</Text>
               <FlatList
                 data={plantsForSelectedDate}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => <Text style={styles.plantName}>{item}</Text>}
+                renderItem={({ item }) => (
+                  <Text style={styles.plantItem}>💧 {item}</Text>
+                )}
               />
+              <TouchableOpacity onPress={() => setSelectedDate(null)} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Luk</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -33,25 +51,66 @@ const PlantCalendar = ({ markedDates, onDayPress, selectedDate, plantsForSelecte
 };
 
 const styles = StyleSheet.create({
-  modalContainer: {
+  
+  calendar: {
+    marginBottom: 30,
+    paddingBottom: 10,
+    borderRadius: 10,
+  },
+  modalBackground: {
     flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
+  modalContainer: {
     backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
+    padding: 24,
+    borderRadius: 12,
     width: '80%',
+    alignItems: 'center',
   },
   modalTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 16,
+    textAlign: 'center',
   },
-  plantName: {
+  plantItem: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 8,
   },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: '#156130',
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 6,
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+  // modalContainer: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // modalContent: {
+  //   backgroundColor: '#fff',
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   width: '80%',
+  // },
+  // modalTitle: {
+  //   fontWeight: 'bold',
+  //   marginBottom: 10,
+  // },
+  // plantName: {
+  //   fontSize: 16,
+  //   marginBottom: 5,
+  // },
 });
 
 export default PlantCalendar;

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import supabase from '../utils/supabaseConnection';
 import PlantCalendar from '../components/dashboard/PlantCalendar.js';
 import { getGreeting } from '../components/dashboard/Greeting.js';
 import { getRandomFact } from '../components/dashboard/PlantFacts.js';
@@ -12,39 +11,44 @@ const DashboardScreen = () => {
   const [markedDates, setMarkedDates] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [plantsForSelectedDate, setPlantsForSelectedDate] = useState([]);
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState(''); // Hvis du henter brugernavn senere
+
+  const loadDashboard = useCallback(async () => {
+    const { data } = await fetchUserPlants();
+    if (data) {
+      setUserPlants(data);
+
+      const dates = calculateWateringDates(data);
+      setMarkedDates(dates);
+    }
+  }, []);
 
   useEffect(() => {
-    const loadDashboard = async () => {
-      const { data } = await fetchUserPlants();
-      if (data) {
-        setUserPlants(data);
-        const dates = calculateWateringDates(data);
-        setMarkedDates(dates);
-      }
-    };
-
     loadDashboard();
-  }, []);
+  }, [loadDashboard]);
 
   const handleDayPress = (day) => {
     const date = day.dateString;
     if (markedDates[date]) {
       setSelectedDate(date);
       setPlantsForSelectedDate(markedDates[date].plants);
+    } else {
+      setSelectedDate(null);
+      setPlantsForSelectedDate([]);
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.greeting}>{getGreeting(userName)}</Text>
-      <Text style={styles.fact}>Vidste du at... {getRandomFact()}</Text>
       <PlantCalendar
         markedDates={markedDates}
         onDayPress={handleDayPress}
         selectedDate={selectedDate}
         plantsForSelectedDate={plantsForSelectedDate}
+        setSelectedDate={setSelectedDate} 
       />
+      <Text style={styles.fact}>Vidste du: {getRandomFact()}</Text>
     </View>
   );
 };
@@ -53,11 +57,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+
+    paddingTop: 70,
+    paddingHorizontal: 20,
   },
   greeting: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlign: 'center',
+    color: '#173e25',
+    marginBottom: 32,
   },
   fact: {
     fontSize: 16,
