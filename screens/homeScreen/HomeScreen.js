@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';

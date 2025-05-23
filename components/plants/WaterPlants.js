@@ -1,4 +1,3 @@
-import React from "react";
 import supabase from "../../utils/supabaseConnection.js";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { differenceInCalendarDays, addDays, parseISO } from 'date-fns';

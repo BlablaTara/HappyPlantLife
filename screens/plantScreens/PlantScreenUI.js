@@ -15,12 +15,7 @@ import SearchPlant from '../../components/plants/SearchPlant.js';
 
 
 const PlantScreenUI = ({ userPlants, setSelectedPlant, loading, loadPlants}) => {
-  //const [userPlants, setUserPlants] = useState([]);
- // const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  //const [selectedPlant, setSelectedPlant] = useState(null);
-  //const [refreshOnClose, setRefreshOnClose] = useState(false);
-
 
   return (
     <SafeAreaView style={styles.container}>

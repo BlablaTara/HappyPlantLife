@@ -5,6 +5,8 @@ const PlantCalendar = ({ markedDates, onDayPress, selectedDate, setSelectedDate,
   return (
     <View>
       <Calendar
+        hideArrows={false}
+        enableSwipeMonths={true}
         markedDates={markedDates}
         onDayPress={onDayPress}
         theme={{
