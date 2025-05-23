@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated, Alert } from 'react-native';
+import { getWaterStatusColor } from '../../utils/waterStatus.js';
 import WaterPlant from './WaterPlants.js';
-import { getWaterStatusColor } from '../../utils/waterStatus.js'
+
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);

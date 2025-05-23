@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { getWaterStatusColor } from '../../utils/waterStatus.js'
+import { getWaterStatusColor } from '../../utils/waterStatus.js';
 
 const Plants = ({ name, image, lastWatered, waterNeeds }) => {
     const overlayColor = getWaterStatusColor(lastWatered, waterNeeds);

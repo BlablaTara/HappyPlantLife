@@ -1,5 +1,5 @@
+import supabase from '../../utils/supabaseConnection.js';
 import { Alert } from 'react-native';
-import supabase from '../../utils/supabaseConnection.js'
 
 export const addPlantToUser = async (plantId) => {
     const {

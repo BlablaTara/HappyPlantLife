@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import AuthCard from '../components/auth/AuthCard';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
-import logo from '../assets/images/happyplantlife.png';
+import AuthCard from '../../components/auth/AuthCard';
+import logo from '../../assets/images/happyplantlife.png';
 
 const HomeScreen = () => {
-  // const [user, setUser] = useState(null);
   const navigation = useNavigation();
 
   const handleLogin = (session) => {
     if (session) {
-      navigation.navigate('Dashboard'); // Gå videre til appen
+      navigation.navigate('Dashboard'); 
     }
   };
 

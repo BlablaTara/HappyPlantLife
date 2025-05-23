@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import HomeScreen from '../../screens/HomeScreen.js';
-import DashboardScreen from '../../screens/DashboardScreen.js'
+import HomeScreen from '../../screens/homeScreen/HomeScreen.js';
+import DashboardScreenController from '../../screens/dashboardScreen/DashboardScreenController.js'
 import PlantScreenController from '../../screens/plantScreens/PlantScreenController.js';
 
 
@@ -31,7 +31,7 @@ export default function Navigation() {
                 })}
             >
                 <Tab.Screen name="Home" component={HomeScreen} />
-                <Tab.Screen name="Dashboard" component={DashboardScreen} />
+                <Tab.Screen name="Dashboard" component={DashboardScreenController} />
                 <Tab.Screen name="Plants" component={PlantScreenController} options={{ tabBarIcon: ({ color, size }) => (
                     <Image 
                     source={{ uri: 'https://img.icons8.com/?size=100&id=E7W8jFv4qjui&format=png&color=000000' }}

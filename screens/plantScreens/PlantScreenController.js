@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserPlants } from '../../components/plants/FetchUserPlants.js';
-import ShowPlant from '../../components/plants/ShowPlant.js';
 import { deleteUserPlant } from '../../components/plants/DeletePlant.js';
-
+import ShowPlant from '../../components/plants/ShowPlant.js';
 import PlantScreenUI from './PlantScreenUI.js';
 
 const PlantScreenController = () => {

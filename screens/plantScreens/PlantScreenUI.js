@@ -1,15 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { View, FlatList, StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
-// import supabase from '../utils/supabaseConnection.js';
-// import AddPlantButton from '../components/plants/AddPlantButton';
-// import SearchPlant from '../components/plants/SearchPlant.js';
-// import ShowPlant from '../components/plants/ShowPlant.js';
-// import { deleteUserPlant } from '../components/plants/DeletePlant.js';
-// import { fetchUserPlants } from '../components/plants/FetchUserPlants.js';
-// import { addPlantToUser } from '../components/plants/AddPlant.js';
-// import Plants from '../components/plants/Plants.js';
-
 import React, { useState } from 'react';
 import {
   View,
@@ -20,10 +8,10 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AddPlantButton from '../../components/plants/AddPlantButton.js';
-import SearchPlant from '../../components/plants/SearchPlant.js';
 import { addPlantToUser } from '../../components/plants/AddPlant.js';
 import Plants from '../../components/plants/Plants.js';
+import AddPlantButton from '../../components/plants/AddPlantButton.js';
+import SearchPlant from '../../components/plants/SearchPlant.js';
 
 
 const PlantScreenUI = ({ userPlants, setSelectedPlant, loading, loadPlants}) => {

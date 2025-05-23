@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import supabase from '../../utils/supabaseConnection';
 import {
   Modal,
   View,
@@ -10,7 +11,6 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import supabase from '../../utils/supabaseConnection';
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   const [query, setQuery] = useState('');

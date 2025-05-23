@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, Modal, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
