@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
 import AuthCard from '../../components/auth/AuthCard';
-import logo from '../../assets/images/happyplantlife.png';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -22,8 +21,6 @@ const HomeScreen = () => {
   return (
 
     <View style={styles.container}>
-      {/* <Image source={logo} style={styles.logo} resizeMode="contain" /> */}
-
       <Text style={[styles.header, { fontFamily: 'Pacifico_400Regular' }]}>
          Happy Plant Life 
       </Text>
