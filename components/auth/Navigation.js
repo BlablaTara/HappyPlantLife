@@ -6,9 +6,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import HomeScreen from '../../screens/HomeScreen.js';
 import DashboardScreen from '../../screens/DashboardScreen.js'
-import PlantScreen from "../../screens/PlantScreen.js";
-import PlantContainer from "../../components/plants/PlantContainer.js";
-
+import PlantScreenController from '../../screens/plantScreens/PlantScreenController.js';
 
 
 const Tab = createBottomTabNavigator();
@@ -34,7 +32,7 @@ export default function Navigation() {
             >
                 <Tab.Screen name="Home" component={HomeScreen} />
                 <Tab.Screen name="Dashboard" component={DashboardScreen} />
-                <Tab.Screen name="Plants" component={PlantContainer} options={{ tabBarIcon: ({ color, size }) => (
+                <Tab.Screen name="Plants" component={PlantScreenController} options={{ tabBarIcon: ({ color, size }) => (
                     <Image 
                     source={{ uri: 'https://img.icons8.com/?size=100&id=E7W8jFv4qjui&format=png&color=000000' }}
                     style={{ width: size, height: size, tintColor: color }}

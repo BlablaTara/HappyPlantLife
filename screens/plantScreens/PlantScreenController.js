@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserPlants } from './FetchUserPlants.js';
-import PlantScreen from '../../screens/PlantScreen.js';
-import ShowPlant from './ShowPlant.js';
-import { deleteUserPlant } from './DeletePlant.js';
+import { fetchUserPlants } from '../../components/plants/FetchUserPlants.js';
+import ShowPlant from '../../components/plants/ShowPlant.js';
+import { deleteUserPlant } from '../../components/plants/DeletePlant.js';
 
-const PlantContainer = () => {
+import PlantScreenUI from './PlantScreenUI.js';
+
+const PlantScreenController = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const PlantContainer = () => {
 
   return (
     <>
-      <PlantScreen
+      <PlantScreenUI
         userPlants={userPlants}
         setSelectedPlant={setSelectedPlant}
         loading={loading}
@@ -60,4 +61,4 @@ const PlantContainer = () => {
   );
 };
 
-export default PlantContainer;
+export default PlantScreenController;

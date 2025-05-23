@@ -20,13 +20,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AddPlantButton from '../components/plants/AddPlantButton';
-import SearchPlant from '../components/plants/SearchPlant.js';
-import { addPlantToUser } from '../components/plants/AddPlant.js';
-import Plants from '../components/plants/Plants.js';
+import AddPlantButton from '../../components/plants/AddPlantButton.js';
+import SearchPlant from '../../components/plants/SearchPlant.js';
+import { addPlantToUser } from '../../components/plants/AddPlant.js';
+import Plants from '../../components/plants/Plants.js';
 
 
-const PlantScreen = ({ userPlants, setSelectedPlant, loading, loadPlants}) => {
+const PlantScreenUI = ({ userPlants, setSelectedPlant, loading, loadPlants}) => {
   //const [userPlants, setUserPlants] = useState([]);
  // const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlantScreen;
+export default PlantScreenUI;
