@@ -24,11 +24,11 @@ const PlantCalendar = ({
         onDayPress={onDayPress}
         theme={{
           selectedDayBackgroundColor: "#156130",
-          selectedDayTextColor: "#fff", // Hvid tekst på valgte dato
-          todayBackgroundColor: "#156130", // Grøn baggrund på dags dato
-          todayTextColor: "#fff", // Hvid tekst på dags dato
-          arrowColor: "#156130", // Grøn farve på pile
-          dotColor: "#156130", // Grøn prik (men vi ændrer til fyld senere)
+          selectedDayTextColor: "#fff",
+          todayBackgroundColor: "#156130",
+          todayTextColor: "#fff",
+          arrowColor: "#156130",
+          dotColor: "#156130",
           textDayFontWeight: "bold",
           textMonthFontWeight: "bold",
           textDayHeaderFontWeight: "bold",
@@ -107,26 +107,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-
-  // modalContainer: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // modalContent: {
-  //   backgroundColor: '#fff',
-  //   padding: 20,
-  //   borderRadius: 10,
-  //   width: '80%',
-  // },
-  // modalTitle: {
-  //   fontWeight: 'bold',
-  //   marginBottom: 10,
-  // },
-  // plantName: {
-  //   fontSize: 16,
-  //   marginBottom: 5,
-  // },
 });
 
 export default PlantCalendar;
