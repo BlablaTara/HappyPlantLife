@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
 import AuthCard from '../../components/auth/AuthCard';
@@ -12,14 +12,13 @@ const HomeScreen = () => {
     }
   };
 
-    let [fontsLoaded] = useFonts({
-      Pacifico_400Regular,
-    });
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
 
-    if (!fontsLoaded) return null;
+  if (!fontsLoaded) return null;
 
   return (
-
     <View style={styles.container}>
       <Text style={[styles.header, { fontFamily: 'Pacifico_400Regular' }]}>
          Happy Plant Life 
