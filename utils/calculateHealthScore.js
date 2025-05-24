@@ -1,4 +1,4 @@
-import { parseISO, differenceInCalendarDays } from 'date-fns';
+import { parseISO, differenceInCalendarDays } from "date-fns";
 
 export function getPlantHealthScore(lastWatered, waterNeeds) {
   if (!lastWatered || !waterNeeds) return 0;
