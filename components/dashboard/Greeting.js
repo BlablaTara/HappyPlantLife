@@ -3,16 +3,15 @@ export const getGreeting = () => {
   let timeOfDay;
 
   if (hour < 12) {
-    timeOfDay = 'Go\'morgen';
+    timeOfDay = "Go'morgen";
   } else if (hour < 18) {
-    timeOfDay = 'Go\'dag';
+    timeOfDay = "Go'dag";
   } else {
-    timeOfDay = 'Go\'aften';
+    timeOfDay = "Go'aften";
   }
 
-  const nicknames = ['Solstråle', 'Sukkerært', 'Blomsterbarn', 'Grønne Fingre'];
+  const nicknames = ["Solstråle", "Sukkerært", "Blomsterbarn", "Grønne Fingre"];
   const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
 
   return `${timeOfDay} ${nickname}!`;
-
 };

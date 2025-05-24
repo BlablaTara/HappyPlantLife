@@ -42,11 +42,11 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
   if (!localPlant) return null;
 
-  const handleWatered = () => {
+  const handleWateredUI = () => {
     const now = new Date().toISOString();
     setLocalPlant({ ...localPlant, last_watered: now });
     playDropletAnimation();
-    onWatered(); //Opdaterer også globalt
+    onWatered(); 
   }
 
   return (
@@ -85,7 +85,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             plantId={localPlant.plant_id}
             lastWatered={localPlant.last_watered}
             waterNeeds={localPlant.plants?.water_needs}
-            onWatered={handleWatered}
+            onWatered={handleWateredUI}
           />
 
           <TouchableOpacity

@@ -10,13 +10,13 @@ export const calculateWateringDates = (userPlants) => {
 
     const nextWateringDate = new Date(last_watered);
     nextWateringDate.setDate(nextWateringDate.getDate() + water_needs);
-    const dateString = nextWateringDate.toISOString().split('T')[0];
 
+    const dateString = nextWateringDate.toISOString().split("T")[0];
     const isOverdue = nextWateringDate < today;
 
     wateringDates[dateString] = wateringDates[dateString] || {
       marked: true,
-      dotColor: isOverdue ? 'red' : '#156130',
+      dotColor: isOverdue ? "red" : "#156130",
       plants: [],
     };
 
@@ -25,4 +25,3 @@ export const calculateWateringDates = (userPlants) => {
 
   return wateringDates;
 };
-

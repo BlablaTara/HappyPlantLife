@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import supabase from "../../utils/supabaseConnection";
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import supabase from "../../utils/supabaseConnection";
 
 const AuthCard = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -37,7 +37,7 @@ const AuthCard = ({ onLogin }) => {
         Alert.alert("Kunne ikke hente session");
         return;
       }
-      onLogin(sessionData.session); // Redirect til PlantScreen
+      onLogin(sessionData.session);
     }
   };
 

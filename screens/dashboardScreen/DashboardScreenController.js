@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { fetchUserPlants } from '../../components/plants/FetchUserPlants.js';
-import { calculateWateringDates } from '../../components/dashboard/WateringDates.js';
-import { getOverallHealthScore } from '../../utils/calculateHealthScore.js';
-import DashboardScreenUI from './DashboardScreenUI.js';
+import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { fetchUserPlants } from "../../components/plants/FetchUserPlants.js";
+import { calculateWateringDates } from "../../components/dashboard/WateringDates.js";
+import { getOverallHealthScore } from "../../utils/calculateHealthScore.js";
+import DashboardScreenUI from "./DashboardScreenUI.js";
 
 const DashboardScreenController = () => {
   const [userPlants, setUserPlants] = useState([]);
   const [markedDates, setMarkedDates] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [plantsForSelectedDate, setPlantsForSelectedDate] = useState([]);
-  const [userName, setUserName] = useState(''); // Du kan senere hente dette fra auth/profil
+  const [userName, setUserName] = useState(""); // Du kan senere hente dette fra auth/profil
   const [overallHealthScore, setOverallHealthScore] = useState(1);
 
   const loadDashboard = useCallback(async () => {

@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { getGreeting } from '../../components/dashboard/Greeting.js';
-import { getRandomFact } from '../../components/dashboard/PlantFacts.js';
-import PlantCalendar from '../../components/dashboard/PlantCalendar.js';
-import OverallPlantsState from '../../components/dashboard/OverallPlantsState.js';
+import { View, Text, StyleSheet } from "react-native";
+import { getGreeting } from "../../components/dashboard/Greeting.js";
+import { getRandomFact } from "../../components/dashboard/PlantFacts.js";
+import PlantCalendar from "../../components/dashboard/PlantCalendar.js";
+import OverallPlantsState from "../../components/dashboard/OverallPlantsState.js";
 
 const DashboardScreenUI = ({
   userName,
@@ -11,7 +11,7 @@ const DashboardScreenUI = ({
   selectedDate,
   setSelectedDate,
   plantsForSelectedDate,
-  onDayPress
+  onDayPress,
 }) => {
   return (
     <View style={styles.container}>
@@ -38,22 +38,22 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#173e25',
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#173e25",
     marginBottom: 32,
   },
   factHeading: {
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 15,
-    color: '#4d774e',
-    },
+    color: "#4d774e",
+  },
   fact: {
     fontSize: 16,
-    textAlign: 'center',
-    fontStyle: 'italic',
+    textAlign: "center",
+    fontStyle: "italic",
     marginBottom: 20,
   },
 });

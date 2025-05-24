@@ -1,5 +1,12 @@
 import supabase from "../../utils/supabaseConnection.js";
-import { View, Text, StyleSheet, TouchableOpacity, Vibration, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Vibration,
+  Alert,
+} from "react-native";
 import { differenceInCalendarDays, addDays, parseISO } from "date-fns";
 import { Audio } from "expo-av";
 
@@ -53,7 +60,7 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
       .eq("plant_id", plantId);
 
     if (error) {
-      Alert.alert("Fejl", "Der opstod en fejl under vanding. Prøv igen.")
+      Alert.alert("Fejl", "Der opstod en fejl under vanding. Prøv igen.");
     } else {
       onWatered();
     }

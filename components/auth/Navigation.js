@@ -17,7 +17,13 @@ export default function Navigation() {
             if (route.name === "Home") {
               return <Ionicons name="home-outline" size={size} color={color} />;
             } else if (route.name === "Dashboard") {
-              return <Ionicons name="speedometer-outline" size={size} color={color} />;
+              return (
+                <Ionicons
+                  name="speedometer-outline"
+                  size={size}
+                  color={color}
+                />
+              );
             }
           },
           tabBarActiveTintColor: "green",

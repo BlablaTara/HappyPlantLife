@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { fetchUserPlants } from '../../components/plants/FetchUserPlants.js';
-import { deleteUserPlant } from '../../components/plants/DeletePlant.js';
-import ShowPlant from '../../components/plants/ShowPlant.js';
-import PlantScreenUI from './PlantScreenUI.js';
+import React, { useState, useEffect } from "react";
+import { fetchUserPlants } from "../../components/plants/FetchUserPlants.js";
+import { deleteUserPlant } from "../../components/plants/DeletePlant.js";
+import ShowPlant from "../../components/plants/ShowPlant.js";
+import PlantScreenUI from "./PlantScreenUI.js";
 
 const PlantScreenController = () => {
   const [userPlants, setUserPlants] = useState([]);
@@ -20,9 +20,6 @@ const PlantScreenController = () => {
     loadPlants();
   }, []);
 
-  console.log("Selected plant:", selectedPlant);
-
-
   return (
     <>
       <PlantScreenUI
@@ -38,11 +35,13 @@ const PlantScreenController = () => {
         onWatered={async () => {
           await loadPlants();
           const updated = await fetchUserPlants();
-          const found = updated.data?.find(p => p.plant_id === selectedPlant.plant_id);
+          const found = updated.data?.find(
+            (p) => p.plant_id === selectedPlant.plant_id
+          );
           if (found) {
             setSelectedPlant({
               ...selectedPlant,
-              last_watered: found.last_watered
+              last_watered: found.last_watered,
             });
           }
         }}

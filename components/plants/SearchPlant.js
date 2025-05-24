@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import supabase from '../../utils/supabaseConnection';
+import React, { useState, useEffect } from "react";
+import supabase from "../../utils/supabaseConnection";
 import {
   Modal,
   View,
@@ -10,14 +10,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-} from 'react-native';
+  Alert,
+} from "react-native";
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Hent alle planter fra Supabase ved åbning
   useEffect(() => {
     if (visible) {
       fetchPlants();
@@ -27,16 +27,13 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   const fetchPlants = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('plants')
-        .select('*');
+      const { data, error } = await supabase.from("plants").select("*");
 
       if (error) throw error;
 
-      console.log("Fetched plants from Supabase:", data);
       setPlants(data);
     } catch (error) {
-      console.error('Fejl ved hentning af planter fra Supabase:', error);
+      Alert.alert("Fejl!", "Kunne ikke hente planterne. Prøv igen");
     } finally {
       setLoading(false);
     }
@@ -47,7 +44,6 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   );
 
   const handleSelect = (plant) => {
-    console.log("Plante valgt:", plant);
     onSelectPlant(plant);
     onClose();
   };
@@ -55,7 +51,6 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
-        
         <TextInput
           style={styles.input}
           placeholder="Søg planter..."
@@ -70,11 +65,16 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
             data={filteredPlants}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
+              <TouchableOpacity
+                style={styles.item}
+                onPress={() => handleSelect(item)}
+              >
                 {item.image ? (
                   <Image source={{ uri: item.image }} style={styles.image} />
                 ) : (
-                  <View style={styles.placeholder}><Text>🌿</Text></View>
+                  <View style={styles.placeholder}>
+                    <Text>🌿</Text>
+                  </View>
                 )}
                 <Text style={styles.name}>{item.name}</Text>
               </TouchableOpacity>
@@ -94,17 +94,17 @@ const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 60, paddingHorizontal: 16 },
   input: {
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     marginBottom: 16,
     padding: 10,
     fontSize: 16,
   },
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 8,
     borderBottomWidth: 0.5,
-    borderColor: '#eee',
+    borderColor: "#eee",
   },
   image: {
     width: 50,
@@ -116,23 +116,23 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 6,
-    backgroundColor: '#eee',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#eee",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   name: { fontSize: 16 },
   close: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 10,
     marginBottom: 50,
     padding: 8,
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
     borderRadius: 5,
   },
   closeText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
