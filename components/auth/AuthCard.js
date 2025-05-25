@@ -11,8 +11,8 @@ import {
 
 const AuthCard = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("t@t.dk");
+  const [password, setPassword] = useState("tttttt");
 
   const handleAuth = async () => {
     if (!email || !password) {

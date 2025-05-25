@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
   },
-
   daysNumber: {
     fontSize: 20,
     fontWeight: "bold",

@@ -50,8 +50,6 @@ const PlantScreenController = () => {
           if (success) {
             await loadPlants();
             setSelectedPlant(null);
-          } else {
-            console.error("Kunne ikke slette planten");
           }
         }}
       />

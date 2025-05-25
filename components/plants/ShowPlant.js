@@ -1,11 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Modal, View, Text, Image, StyleSheet, TouchableOpacity, Animated, Alert } from 'react-native';
-import { getWaterStatusColor } from '../../utils/waterStatus.js';
-import WaterPlant from './WaterPlants.js';
-
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Modal,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Alert,
+} from "react-native";
+import { getWaterStatusColor } from "../../utils/waterStatus.js";
+import WaterPlant from "./WaterPlants.js";
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
+  const overlayColor = getWaterStatusColor(
+    localPlant?.last_watered,
+    localPlant?.plants?.water_needs
+  );
 
   const dropletOpacity = useRef(new Animated.Value(0)).current;
   const dropletY = useRef(new Animated.Value(0)).current;
@@ -37,7 +49,6 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
   useEffect(() => {
     setLocalPlant(plant);
-    console.log("Plant passed to ShowPlant:", plant);
   }, [plant]);
 
   if (!localPlant) return null;
@@ -46,31 +57,32 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
     const now = new Date().toISOString();
     setLocalPlant({ ...localPlant, last_watered: now });
     playDropletAnimation();
-    onWatered(); 
-  }
+    onWatered();
+  };
 
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
-      <View style={styles.overlay}>
+      <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-
           <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
             <Text style={styles.closeIconText}>✕</Text>
           </TouchableOpacity>
 
           <View style={styles.imageWrapper}>
-            <Image source={{ uri: localPlant.plants?.image }} style={styles.image} />
-            <View 
+            <Image
+              source={{ uri: localPlant.plants?.image }}
+              style={styles.image}
+            />
+            {overlayColor !== "transparent" && (
+              <View
+                style={[styles.overlay, { backgroundColor: overlayColor }]}
+              />
+            )}
+            <Animated.Text
               style={[
-                StyleSheet.absoluteFillObject, 
-                  { backgroundColor: getWaterStatusColor(localPlant.last_watered, localPlant.plants?.water_needs),
-                    borderRadius: 10,
-                  },
-              ]}
-             /> 
-            <Animated.Text style={[styles.droplet, 
-                { 
-                  opacity: dropletOpacity, 
+                styles.droplet,
+                {
+                  opacity: dropletOpacity,
                   transform: [{ translateY: dropletY }],
                 },
               ]}
@@ -87,7 +99,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             waterNeeds={localPlant.plants?.water_needs}
             onWatered={handleWateredUI}
           />
-
+          
           <TouchableOpacity
             style={styles.deleteIcon}
             onPress={() => {
@@ -96,14 +108,13 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
                 `Er du sikker på, at du vil slette ${localPlant.plants?.name}?`,
                 [
                   { text: "Annullér", style: "cancel" },
-                  { text: "Slet", style: "destructive", onPress: onDelete }
+                  { text: "Slet", style: "destructive", onPress: onDelete },
                 ]
               );
             }}
           >
             <Text style={styles.deleteSymbol}>🗑️</Text>
           </TouchableOpacity>
-
         </View>
       </View>
     </Modal>
@@ -111,30 +122,28 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 };
 
 const styles = StyleSheet.create({
-  overlay: {
+  modalOverlay: {
     flex: 1,
-    backgroundColor: '#000000aa',
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "#000000aa",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 24,
     borderRadius: 12,
-    alignItems: 'center',
-    width: '80%',
+    alignItems: "center",
+    width: "80%",
   },
-
   imageWrapper: {
-    position: 'relative',
+    position: "relative",
     width: 120,
     height: 120,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
-    overflow: 'visible',
+    overflow: "visible",
   },
   image: {
     width: 120,
@@ -144,36 +153,39 @@ const styles = StyleSheet.create({
   name: {
     marginTop: 12,
     fontSize: 20,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 10,
   },
   deleteIcon: {
-    position: 'absolute',
+    position: "absolute",
     top: 12,
     left: 12,
     zIndex: 2,
   },
   deleteSymbol: {
     fontSize: 22,
-    color: '#8B0000', 
+    color: "#8B0000",
   },
   closeIcon: {
-    position: 'absolute',
+    position: "absolute",
     top: 12,
     right: 12,
     zIndex: 1,
   },
   closeIconText: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   droplet: {
-    position: 'absolute',
-    top: 0, 
+    position: "absolute",
+    top: 0,
     fontSize: 30,
     zIndex: 2,
   },
-
 });
 
 export default ShowPlant;

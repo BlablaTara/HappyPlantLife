@@ -43,7 +43,6 @@ const PlantScreenUI = ({
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => {
-                console.log("Plant selected:", item);
                 setSelectedPlant(item);
               }}
             >
@@ -79,19 +78,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
-
   title: {
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 20,
   },
-
   listContent: {
     justifyContent: "space-between",
     alignItems: "center",
   },
-
   emptyText: {
     fontSize: 16,
     textAlign: "center",
@@ -99,7 +95,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingHorizontal: 20,
   },
-
   centered: {
     flex: 1,
     justifyContent: "center",

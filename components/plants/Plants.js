@@ -23,13 +23,11 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 150,
   },
-
   image: {
     width: "100%",
     height: "100%",
     borderRadius: 10,
   },
-
   imageWrapper: {
     width: 120,
     height: 120,
@@ -37,11 +35,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     position: "relative",
   },
-
   overlay: {
     ...StyleSheet.absoluteFillObject,
   },
-
   name: {
     marginTop: 8,
     fontSize: 16,

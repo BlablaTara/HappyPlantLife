@@ -12,18 +12,15 @@ export const addPlantToUser = async (plantId) => {
     return false;
   }
 
-  const { data: existing, error: checkError } = await supabase
+  const { data: existing } = await supabase
     .from("user_plants")
     .select("*")
     .eq("user_id", user.id)
     .eq("plant_id", plantId);
 
-  if (checkError) {
-    Alert.alert("Hov", "Denne plante har du allerede :)");
-    return false;
-  }
 
   if (existing.length > 0) {
+    Alert.alert("Hov", "Denne plante har du allerede :)");
     return false;
   }
 
@@ -38,7 +35,6 @@ export const addPlantToUser = async (plantId) => {
   if (error) {
     Alert.alert("Fejl", "Kunne ikke tilføje plante. Prøv igen.");
     return false;
-  } else {
-    return true;
-  }
+  } 
+  return true;
 };

@@ -27,20 +27,17 @@ const styles = StyleSheet.create({
   wrapper: {
     marginBottom: 30,
   },
-
   label: {
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 10,
     fontSize: 16,
   },
-
   barContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
-
   bar: {
     flex: 1,
     height: 30,
@@ -48,7 +45,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     position: "relative",
   },
-
   marker: {
     position: "absolute",
     top: 0,
@@ -56,7 +52,6 @@ const styles = StyleSheet.create({
     width: 4,
     backgroundColor: "#000",
   },
-
   leaf: {
     fontSize: 30,
     marginHorizontal: 10,
