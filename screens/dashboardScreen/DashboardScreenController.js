@@ -10,7 +10,7 @@ const DashboardScreenController = () => {
   const [markedDates, setMarkedDates] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [plantsForSelectedDate, setPlantsForSelectedDate] = useState([]);
-  const [userName, setUserName] = useState(""); // Du kan senere hente dette fra auth/profil
+  const [userName, setUserName] = useState(""); 
   const [overallHealthScore, setOverallHealthScore] = useState(1);
 
   const loadDashboard = useCallback(async () => {
