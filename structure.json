@@ -1,0 +1,68 @@
+{
+  "../screens/dashboardScreen/DashboardScreenController.js": [
+    "../screens/dashboardScreen/DashboardScreenUI.js",
+    "../utils/calculateHealthScore.js",
+    "dashboard/WateringDates.js",
+    "plants/FetchUserPlants.js"
+  ],
+  "../screens/dashboardScreen/DashboardScreenUI.js": [
+    "dashboard/Greeting.js",
+    "dashboard/OverallPlantsState.js",
+    "dashboard/PlantCalendar.js",
+    "dashboard/PlantFacts.js"
+  ],
+  "../screens/homeScreen/HomeScreen.js": [
+    "auth/AuthCard.js"
+  ],
+  "../screens/plantScreens/PlantScreenController.js": [
+    "../screens/plantScreens/PlantScreenUI.js",
+    "plants/DeletePlant.js",
+    "plants/FetchUserPlants.js",
+    "plants/ShowPlant.js"
+  ],
+  "../screens/plantScreens/PlantScreenUI.js": [
+    "plants/AddPlant.js",
+    "plants/AddPlantButton.js",
+    "plants/Plants.js",
+    "plants/SearchPlant.js"
+  ],
+  "../utils/calculateHealthScore.js": [],
+  "../utils/supabaseConnection.js": [],
+  "../utils/waterStatus.js": [],
+  "auth/AuthCard.js": [
+    "../utils/supabaseConnection.js"
+  ],
+  "auth/Navigation.js": [
+    "../screens/dashboardScreen/DashboardScreenController.js",
+    "../screens/homeScreen/HomeScreen.js",
+    "../screens/plantScreens/PlantScreenController.js"
+  ],
+  "dashboard/Greeting.js": [],
+  "dashboard/OverallPlantsState.js": [],
+  "dashboard/PlantCalendar.js": [],
+  "dashboard/PlantFacts.js": [],
+  "dashboard/WateringDates.js": [],
+  "plants/AddPlant.js": [
+    "../utils/supabaseConnection.js"
+  ],
+  "plants/AddPlantButton.js": [],
+  "plants/DeletePlant.js": [
+    "../utils/supabaseConnection.js"
+  ],
+  "plants/FetchUserPlants.js": [
+    "../utils/supabaseConnection.js"
+  ],
+  "plants/Plants.js": [
+    "../utils/waterStatus.js"
+  ],
+  "plants/SearchPlant.js": [
+    "../utils/supabaseConnection.js"
+  ],
+  "plants/ShowPlant.js": [
+    "../utils/waterStatus.js",
+    "plants/WaterPlants.js"
+  ],
+  "plants/WaterPlants.js": [
+    "../utils/supabaseConnection.js"
+  ]
+}

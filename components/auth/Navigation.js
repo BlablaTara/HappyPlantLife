@@ -17,13 +17,7 @@ export default function Navigation() {
             if (route.name === "Home") {
               return <Ionicons name="home-outline" size={size} color={color} />;
             } else if (route.name === "Dashboard") {
-              return (
-                <Ionicons
-                  name="speedometer-outline"
-                  size={size}
-                  color={color}
-                />
-              );
+              return <Ionicons name="speedometer-outline" size={size} color={color} />;
             }
           },
           tabBarActiveTintColor: "green",
@@ -33,9 +27,7 @@ export default function Navigation() {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Dashboard" component={DashboardScreenController} />
-        <Tab.Screen
-          name="Plants"
-          component={PlantScreenController}
+        <Tab.Screen name="Plants" component={PlantScreenController}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Image
