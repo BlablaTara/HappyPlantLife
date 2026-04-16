@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { getPlantStages } from "../../utils/getPlantStages.js";
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   const [query, setQuery] = useState("");
@@ -27,7 +28,7 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   const fetchPlants = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.from("plants").select("*");
+      const { data, error } = await supabase.from("plants").select("id, name, plant_stages(stage, image)");
 
       if (error) throw error;
 
@@ -64,13 +65,16 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
           <FlatList
             data={filteredPlants}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
+          renderItem={({ item }) => {
+            const healthyImage = getPlantStages(item.plant_stages, "healthy");
+
+            return (
               <TouchableOpacity
                 style={styles.item}
                 onPress={() => handleSelect(item)}
               >
-                {item.image ? (
-                  <Image source={{ uri: item.image }} style={styles.image} />
+                {healthyImage ? (
+                  <Image source={{ uri: healthyImage }} style={styles.image} />
                 ) : (
                   <View style={styles.placeholder}>
                     <Text>🌿</Text>
@@ -78,7 +82,8 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
                 )}
                 <Text style={styles.name}>{item.name}</Text>
               </TouchableOpacity>
-            )}
+            );
+          }}
           />
         )}
 
