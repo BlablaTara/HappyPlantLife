@@ -1,6 +1,10 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { getWaterStatusColor } from "../../utils/waterStatus.js";
 
+const healthyImage = image?.find(
+  (stage) => stage.stage === "healthy"
+)?.image;
+
 const Plants = ({ name, image, lastWatered, waterNeeds }) => {
   const overlayColor = getWaterStatusColor(lastWatered, waterNeeds);
 

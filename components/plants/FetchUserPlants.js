@@ -14,7 +14,13 @@ export const fetchUserPlants = async () => {
 
   const { data, error } = await supabase
     .from("user_plants")
-    .select("plant_id, last_watered, plants(name, image, water_needs)")
+    .select(`
+      plant_id, 
+      last_watered, 
+      plants(
+        name, 
+        water_needs, 
+        plants_stages(stage, image))`)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 

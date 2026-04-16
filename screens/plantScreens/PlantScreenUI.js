@@ -48,7 +48,7 @@ const PlantScreenUI = ({
             >
               <Plants
                 name={item.plants?.name}
-                image={item.plants?.image}
+                image={item.plants?.plant_stages}
                 lastWatered={item.last_watered}
                 waterNeeds={item.plants?.water_needs}
               />
