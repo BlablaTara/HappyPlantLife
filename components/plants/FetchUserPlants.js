@@ -20,7 +20,7 @@ export const fetchUserPlants = async () => {
       plants(
         name, 
         water_needs, 
-        plants_stages(stage, image))`)
+        plant_stages(stage, image))`)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 

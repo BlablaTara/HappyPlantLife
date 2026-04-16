@@ -1,17 +1,18 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { getWaterStatusColor } from "../../utils/waterStatus.js";
 
-const healthyImage = image?.find(
-  (stage) => stage.stage === "healthy"
-)?.image;
-
 const Plants = ({ name, image, lastWatered, waterNeeds }) => {
   const overlayColor = getWaterStatusColor(lastWatered, waterNeeds);
+
+
+  const healthyImage = image?.find(
+    (stage) => stage.stage === "healthy"
+  )?.image;
 
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image source={{ uri: healthyImage || "" }} style={styles.image} />
         {overlayColor !== "transparent" && (
           <View style={[styles.overlay, { backgroundColor: overlayColor }]} />
         )}
