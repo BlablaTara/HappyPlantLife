@@ -10,7 +10,7 @@ import {
 import { differenceInCalendarDays, addDays, parseISO } from "date-fns";
 import { Audio } from "expo-av";
 
-const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
+const WaterPlant = ({ userPlantId, lastWatered, waterNeeds, onWatered }) => {
   const playDropSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/sounds/water-bubble.wav")
@@ -57,7 +57,7 @@ const WaterPlant = ({ plantId, lastWatered, waterNeeds, onWatered }) => {
     const { error } = await supabase
       .from("user_plants")
       .update({ last_watered: new Date().toISOString() })
-      .eq("plant_id", plantId);
+      .eq("id", userPlantId);
 
     if (error) {
       Alert.alert("Fejl", "Der opstod en fejl under vanding. Prøv igen.");

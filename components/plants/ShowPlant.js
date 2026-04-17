@@ -54,7 +54,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
   if (!localPlant?.plants) return null;
 
-  const healthyImage = getPlantStageImage(localPlant.plants, "healthy");
+  const healthyImage = getPlantStageImage(localPlant, "healthy");
 
   const handleWateredUI = () => {
     const now = new Date().toISOString();
@@ -94,12 +94,12 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             </Animated.Text>
           </View>
 
-          <Text style={styles.name}>{localPlant.plants?.name}</Text>
+          <Text style={styles.name}>{localPlant?.name}</Text>
 
           <WaterPlant
             plantId={localPlant.plant_id}
             lastWatered={localPlant.last_watered}
-            waterNeeds={localPlant.plants?.water_needs}
+            waterNeeds={localPlant?.water_needs}
             onWatered={handleWateredUI}
           />
           

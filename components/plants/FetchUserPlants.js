@@ -15,6 +15,7 @@ export const fetchUserPlants = async () => {
   const { data, error } = await supabase
     .from("user_plants")
     .select(`
+      id,
       plant_id, 
       last_watered, 
       plants(
@@ -28,5 +29,17 @@ export const fetchUserPlants = async () => {
     Alert.alert("Hov!", "Noget gik galt. Prøv igen.");
     return { data: null, error };
   }
-  return { data };
+
+
+  // FLAT MAPPING - skulle være lettere ift. at hente data.
+  const formattedPlantData = data.map((item) => ({
+    id: item.id,
+    plant_id: item.plant_id,
+    last_watered: item.last_watered,
+    name: item.plants?.name,
+    water_needs: item.plants?.water_needs,
+    plant_stages: item.plants?.plant_stages,
+  }));
+
+  return { data: formattedPlantData };
 };

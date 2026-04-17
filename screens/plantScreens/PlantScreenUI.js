@@ -47,9 +47,9 @@ const PlantScreenUI = ({
               }}
             >
               <Plants
-                plant={item.plants}
+                plant={item}
                 lastWatered={item.last_watered}
-                waterNeeds={item.plants?.water_needs}
+                waterNeeds={item.water_needs}
               />
             </TouchableOpacity>
           )}
