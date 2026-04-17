@@ -12,7 +12,7 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { getPlantStages } from "../../utils/getPlantStages.js";
+import { getPlantStageImage } from "../../utils/getPlantStages.js";
 
 const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
   const [query, setQuery] = useState("");
@@ -66,7 +66,7 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
             data={filteredPlants}
             keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => {
-            const healthyImage = getPlantStages(item.plant_stages, "healthy");
+            const healthyImage = getPlantStageImage(item, "healthy");
 
             return (
               <TouchableOpacity

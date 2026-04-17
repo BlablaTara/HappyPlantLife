@@ -1,14 +1,15 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { getWaterStatusColor } from "../../utils/waterStatus.js";
+import { getPlantStageImage } from "../../utils/getPlantStages.js";
 
-const Plants = ({ name, image, lastWatered, waterNeeds }) => {
+const Plants = ({ plant, lastWatered, waterNeeds }) => {
   const overlayColor = getWaterStatusColor(lastWatered, waterNeeds);
 
 
-  const healthyImage = image?.find(
-    (stage) => stage.stage === "healthy"
-  )?.image;
-
+  const healthyImage = getPlantStageImage(plant, "healthy")
+  
+  console.log("PLANT DEBUG:", plant);
+  
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
@@ -17,7 +18,7 @@ const Plants = ({ name, image, lastWatered, waterNeeds }) => {
           <View style={[styles.overlay, { backgroundColor: overlayColor }]} />
         )}
       </View>
-      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.name}>{plant?.name}</Text>
     </View>
   );
 };

@@ -1,6 +1,3 @@
-export const getPlantStages = (plantStages, stage = "healthy") => {
-  if (!plantStages) return null;
-
-  const found = plantStages.find((s) => s.stage === stage);
-  return found?.image || null;
+export const getPlantStageImage = (plant, stage = "healthy") => {
+  return plant?.plant_stages?.find((s) => s.stage === stage)?.image || null;
 };

@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { getWaterStatusColor } from "../../utils/waterStatus.js";
+import { getPlantStageImage } from "../../utils/getPlantStages.js";
 import WaterPlant from "./WaterPlants.js";
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
@@ -51,7 +52,9 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
     setLocalPlant(plant);
   }, [plant]);
 
-  if (!localPlant) return null;
+  if (!localPlant?.plants) return null;
+
+  const healthyImage = getPlantStageImage(localPlant.plants, "healthy");
 
   const handleWateredUI = () => {
     const now = new Date().toISOString();
@@ -70,7 +73,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
           <View style={styles.imageWrapper}>
             <Image
-              source={{ uri: localPlant.plants?.image }}
+              source={{ uri: healthyImage || "" }}
               style={styles.image}
             />
             {overlayColor !== "transparent" && (
