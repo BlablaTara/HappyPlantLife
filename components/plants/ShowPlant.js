@@ -9,16 +9,16 @@ import {
   Animated,
   Alert,
 } from "react-native";
-import { getWaterStatusColor } from "../../utils/waterStatus.js";
-import { getPlantStageImage } from "../../utils/getPlantStages.js";
+import { getPlantStage } from "../../utils/plantStage.js";
+import { getPlantStageImage } from "../../utils/plantStageImage.js";
 import WaterPlant from "./WaterPlants.js";
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
-  const overlayColor = getWaterStatusColor(
-    localPlant?.last_watered,
-    localPlant?.water_needs
-  );
+  // const overlayColor = getWaterStatusColor(
+  //   localPlant?.last_watered,
+  //   localPlant?.water_needs,
+  // );
 
   const dropletOpacity = useRef(new Animated.Value(0)).current;
   const dropletY = useRef(new Animated.Value(0)).current;
@@ -54,7 +54,11 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
   if (!localPlant) return null;
 
-  const healthyImage = getPlantStageImage(localPlant, "healthy");
+  const stage = getPlantStage(
+    localPlant.last_watered,
+    localPlant.water_needs
+  );
+  const image = getPlantStageImage(localPlant, stage);
 
   const handleWateredUI = () => {
     const now = new Date().toISOString();
@@ -72,15 +76,12 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
           </TouchableOpacity>
 
           <View style={styles.imageWrapper}>
-            <Image
-              source={{ uri: healthyImage || "" }}
-              style={styles.image}
-            />
-            {overlayColor !== "transparent" && (
+            <Image source={{ uri: image || "" }} style={styles.image} />
+            {/* {overlayColor !== "transparent" && (
               <View
                 style={[styles.overlay, { backgroundColor: overlayColor }]}
               />
-            )}
+            )} */}
             <Animated.Text
               style={[
                 styles.droplet,
@@ -102,7 +103,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             waterNeeds={localPlant?.water_needs}
             onWatered={handleWateredUI}
           />
-          
+
           <TouchableOpacity
             style={styles.deleteIcon}
             onPress={() => {
@@ -112,7 +113,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
                 [
                   { text: "Annullér", style: "cancel" },
                   { text: "Slet", style: "destructive", onPress: onDelete },
-                ]
+                ],
               );
             }}
           >
