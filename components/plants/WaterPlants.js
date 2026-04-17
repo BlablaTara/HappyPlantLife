@@ -59,8 +59,13 @@ const WaterPlant = ({ userPlantId, lastWatered, waterNeeds, onWatered }) => {
       .update({ last_watered: new Date().toISOString() })
       .eq("id", userPlantId);
 
+      console.log("WATER PLANT Updating plant with ID:", userPlantId);
+      console.log("USER PLANT ID:", userPlantId, typeof userPlantId);
+      
     if (error) {
       Alert.alert("Fejl", "Der opstod en fejl under vanding. Prøv igen.");
+      console.log(" WATER PLANT Supabase error:", error);
+
     } else {
       onWatered();
     }

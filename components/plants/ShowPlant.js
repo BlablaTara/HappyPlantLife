@@ -98,7 +98,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
           <Text style={styles.name}>{localPlant?.name}</Text>
 
           <WaterPlant
-            plantId={localPlant.plant_id}
+            userPlantId={localPlant.id}
             lastWatered={localPlant.last_watered}
             waterNeeds={localPlant?.water_needs}
             onWatered={handleWateredUI}
