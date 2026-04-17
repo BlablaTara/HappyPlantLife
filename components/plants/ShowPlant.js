@@ -17,7 +17,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
   const overlayColor = getWaterStatusColor(
     localPlant?.last_watered,
-    localPlant?.plants?.water_needs
+    localPlant?.water_needs
   );
 
   const dropletOpacity = useRef(new Animated.Value(0)).current;
@@ -52,7 +52,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
     setLocalPlant(plant);
   }, [plant]);
 
-  if (!localPlant?.plants) return null;
+  if (!localPlant) return null;
 
   const healthyImage = getPlantStageImage(localPlant, "healthy");
 
@@ -108,7 +108,7 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
             onPress={() => {
               Alert.alert(
                 "Slet plante",
-                `Er du sikker på, at du vil slette ${localPlant.plants?.name}?`,
+                `Er du sikker på, at du vil slette ${localPlant.name}?`,
                 [
                   { text: "Annullér", style: "cancel" },
                   { text: "Slet", style: "destructive", onPress: onDelete },

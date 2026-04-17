@@ -14,7 +14,7 @@ export function getOverallHealthScore(plants) {
   if (!plants || plants.length === 0) return 0;
 
   const scores = plants.map((plant) =>
-    getPlantHealthScore(plant.last_watered, plant.plants?.water_needs)
+    getPlantHealthScore(plant.last_watered, plant?.water_needs)
   );
 
   const total = scores.reduce((sum, s) => sum + s, 0);

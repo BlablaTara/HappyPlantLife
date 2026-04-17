@@ -46,6 +46,8 @@ const DashboardScreenController = () => {
     }
   };
 
+  console.log(" DASHBOARD PLANTS DEBUG:", userPlants);
+
   return (
     <DashboardScreenUI
       userName={userName}
