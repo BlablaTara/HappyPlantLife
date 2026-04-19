@@ -3,11 +3,9 @@ import { getPlantStage } from "../../utils/plantStage.js";
 import { getPlantStageImage } from "../../utils/plantStageImage.js";
 
 const Plants = ({ plant, lastWatered, waterNeeds }) => {
-  // const overlayColor = getWaterStatusColor(lastWatered, waterNeeds);
 
   const stage = getPlantStage(lastWatered, waterNeeds);
   const image = getPlantStageImage(plant, stage);
-  // const healthyImage = getPlantStageImage(plant, "healthy");
 
   console.log("PLANT DEBUG:", plant);
 
@@ -15,9 +13,6 @@ const Plants = ({ plant, lastWatered, waterNeeds }) => {
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
         <Image source={{ uri: image || "" }} style={styles.image} />
-        {/* {overlayColor !== "transparent" && (
-          <View style={[styles.overlay, { backgroundColor: overlayColor }]} />
-        )} */}
       </View>
       <Text style={styles.name}>{plant?.name}</Text>
     </View>

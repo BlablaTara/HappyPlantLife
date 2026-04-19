@@ -15,10 +15,6 @@ import WaterPlant from "./WaterPlants.js";
 
 const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
   const [localPlant, setLocalPlant] = useState(null);
-  // const overlayColor = getWaterStatusColor(
-  //   localPlant?.last_watered,
-  //   localPlant?.water_needs,
-  // );
 
   const dropletOpacity = useRef(new Animated.Value(0)).current;
   const dropletY = useRef(new Animated.Value(0)).current;
@@ -77,11 +73,6 @@ const ShowPlant = ({ visible, onClose, plant, onDelete, onWatered }) => {
 
           <View style={styles.imageWrapper}>
             <Image source={{ uri: image || "" }} style={styles.image} />
-            {/* {overlayColor !== "transparent" && (
-              <View
-                style={[styles.overlay, { backgroundColor: overlayColor }]}
-              />
-            )} */}
             <Animated.Text
               style={[
                 styles.droplet,

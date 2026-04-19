@@ -68,16 +68,16 @@ const SearchPlant = ({ visible, onClose, onSelectPlant }) => {
             data={filteredPlants}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => {
-              const healthyImage = getPlantStageImage(item, "healthy");
+              const happyImage = getPlantStageImage(item, "happy");
 
               return (
                 <TouchableOpacity
                   style={styles.item}
                   onPress={() => handleSelect(item)}
                 >
-                  {healthyImage ? (
+                  {happyImage ? (
                     <Image
-                      source={{ uri: healthyImage }}
+                      source={{ uri: happyImage }}
                       style={styles.image}
                     />
                   ) : (
