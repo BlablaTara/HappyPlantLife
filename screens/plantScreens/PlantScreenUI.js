@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { addPlantToUser } from "../../components/plants/AddPlant.js";
@@ -22,52 +23,58 @@ const PlantScreenUI = ({
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Mine Planter</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../../assets/images/shelf.png")}
+        style={styles.container}
+        resizeMode="cover"
+      >
+        <Text style={styles.title}>Mine Planter</Text>
 
-      {loading ? (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color="green" />
-        </View>
-      ) : userPlants.length === 0 ? (
-        <View style={styles.centered}>
-          <Text style={styles.emptyText}>
-            Du har endnu ikke valgt nogen planter. Tryk på + for at tilføje en
-            af dine planter.
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={userPlants}
-          keyExtractor={(item) => item.plant_id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedPlant(item);
-              }}
-            >
-              <Plants
-                plant={item}
-                lastWatered={item.last_watered}
-                waterNeeds={item.water_needs}
-              />
-            </TouchableOpacity>
-          )}
-          numColumns={2}
-          contentContainerStyle={styles.listContent}
+        {loading ? (
+          <View style={styles.centered}>
+            <ActivityIndicator size="large" color="green" />
+          </View>
+        ) : userPlants.length === 0 ? (
+          <View style={styles.centered}>
+            <Text style={styles.emptyText}>
+              Du har endnu ikke valgt nogen planter. Tryk på + for at tilføje en
+              af dine planter.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={userPlants}
+            keyExtractor={(item) => item.plant_id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedPlant(item);
+                }}
+              >
+                <Plants
+                  plant={item}
+                  lastWatered={item.last_watered}
+                  waterNeeds={item.water_needs}
+                />
+              </TouchableOpacity>
+            )}
+            numColumns={2}
+            contentContainerStyle={styles.listContent}
+          />
+        )}
+
+        <AddPlantButton onPress={() => setModalVisible(true)} />
+        <SearchPlant
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSelectPlant={async (plant) => {
+            const success = await addPlantToUser(plant.id);
+            if (success) await loadPlants();
+            setModalVisible(false);
+          }}
         />
-      )}
-
-      <AddPlantButton onPress={() => setModalVisible(true)} />
-      <SearchPlant
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSelectPlant={async (plant) => {
-          const success = await addPlantToUser(plant.id);
-          if (success) await loadPlants();
-          setModalVisible(false);
-        }}
-      />
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -76,6 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
+    backgroundColor: "#bfd9d9",
   },
   title: {
     fontSize: 22,
