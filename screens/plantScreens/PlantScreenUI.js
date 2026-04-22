@@ -14,6 +14,7 @@ import Plants from "../../components/plants/Plants.js";
 import AddPlantButton from "../../components/plants/AddPlantButton.js";
 import SearchPlant from "../../components/plants/SearchPlant.js";
 
+
 const PlantScreenUI = ({
   userPlants,
   setSelectedPlant,
@@ -21,6 +22,19 @@ const PlantScreenUI = ({
   loadPlants,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const positions = [
+    { left: 5, top: 65 },
+    { left: 100, top: 65 },
+    { left: 180, top: 175 },
+    { left: 260, top: 200 },
+
+    { left: 30, top: 175 },
+    { left: 110, top: 350 },
+    { left: 190, top: 350 },
+    { left: 270, top: 350 },
+    { left: 350, top: 350 },
+  ];
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -43,25 +57,31 @@ const PlantScreenUI = ({
             </Text>
           </View>
         ) : (
-          <FlatList
-            data={userPlants}
-            keyExtractor={(item) => item.plant_id.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedPlant(item);
-                }}
-              >
-                <Plants
-                  plant={item}
-                  lastWatered={item.last_watered}
-                  waterNeeds={item.water_needs}
-                />
-              </TouchableOpacity>
-            )}
-            numColumns={2}
-            contentContainerStyle={styles.listContent}
-          />
+          <>
+            {userPlants.map((item, index) => {
+              const pos = positions[index];
+
+              if (!pos) return null;
+
+              return (
+                <TouchableOpacity
+                  key={item.plant_id}
+                  style={[
+                    styles.plantPosition,
+                    { left: pos.left, top: pos.top }
+                  ]}
+                  onPress={() => setSelectedPlant(item)}
+                >
+                  <Plants
+                    plant={item}
+                    lastWatered={item.last_watered}
+                    waterNeeds={item.water_needs}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </>
+
         )}
 
         <AddPlantButton onPress={() => setModalVisible(true)} />
@@ -84,6 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     backgroundColor: "#bfd9d9",
+    position: "relative",
   },
   title: {
     fontSize: 22,
@@ -95,6 +116,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  plantPosition: {
+    position: "absolute",
+  },
+
   emptyText: {
     fontSize: 16,
     textAlign: "center",
